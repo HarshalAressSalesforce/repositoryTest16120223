@@ -1,0 +1,11 @@
+<apex:component access="global">
+
+     
+
+    <apex:attribute name="attachments" description="Include parameter"  type="Attachment[]" />
+
+    <apex:repeat value="{!attachments}" var="attachment">
+        <messaging:attachment renderAs="{!attachment.contentType}" fileName="{!attachment.name}">{!attachment.body}</messaging:attachment>
+    </apex:repeat>
+
+    </apex:component>

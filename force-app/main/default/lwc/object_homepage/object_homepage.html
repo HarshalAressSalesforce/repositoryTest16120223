@@ -1,0 +1,39 @@
+<template>
+    <div class="chatbox">         
+        <div class="title">Chat History</div>
+        <div class="messageList">
+            <template for:each={messages} for:item="msg">   
+                <div class="chatLine" key={msg.message.AressH__relayId__c}>
+                    <div class="avtar">
+                        <lightning-avatar size="x-small" src={msg.message.AressH__sender__r.SmallPhotoUrl} ></lightning-avatar>
+                    </div>
+
+                    <div if:true={msg.isOwn} class="ownMessage"  key={msg.message.AressH__relayId__c}>                      
+                        <div class="messageBox">
+                            <span class="sender">Me</span> {msg.chatSentTime} <br />
+                            {msg.message.AressH__message__c}
+                        </div>
+                    </div>
+        
+                    <div if:true={msg.isOther} class="otherMessage"  key={msg.message.AressH__relayId__c}>                     
+                        <div class="messageBox">
+                            <span class="sender">{msg.message.AressH__sender__r.Name} </span> {msg.chatSentTime} <br />
+                            {msg.message.AressH__message__c}
+                        </div>   
+                    </div> 
+                </div> 
+            </template>
+        </div> 
+
+        <div class="sendButton">
+            <lightning-input type="text" name="chatMessage" label=""   ></lightning-input>
+            <div class="but">
+                <lightning-button variant="brand" label="Send" title="Send" onclick={sendMessage} ></lightning-button>
+            </div>
+        </div>  
+    </div>
+
+   
+     
+    
+</template>

@@ -1,0 +1,87 @@
+<apex:page sidebar="false" standardController="Account" tabStyle="account">
+   	
+    <style>
+      .activeTab {background-color: #000; color:#fff;cursor:pointer; 
+         background-image:none}
+      .inactiveTab { background-color: blue; color:#fff; cursor:pointer; 
+         background-image:none}
+   </style>
+    
+    <apex:tabPanel switchType="client" selectedTab="tabdetails"  id="AccountTabPanel" tabClass="activeTab" inactiveTabClass="inactiveTab">  
+        <apex:tab label="Details" name="AccDetails" id="tabdetails">
+         <apex:detail relatedList="false" title="true"/>
+      </apex:tab>
+      <apex:tab label="Contacts" name="Contacts" id="tabContact">
+         <apex:relatedList subject="{!account}" list="contacts" />
+      </apex:tab>
+      <apex:tab label="Opportunities" name="Opportunities" 
+                id="tabOpp">
+         <apex:relatedList subject="{!account}" 
+                           list="opportunities" />
+      </apex:tab>
+      <apex:tab label="Open Activities" name="OpenActivities" 
+                id="tabOpenAct">
+         <apex:relatedList subject="{!account}" 
+                           list="OpenActivities" />
+      </apex:tab>
+      <apex:tab label="Notes and Attachments" 
+                name="NotesAndAttachments" id="tabNoteAtt">
+         <apex:relatedList subject="{!account}" 
+                           list="CombinedAttachments" />
+      </apex:tab> 
+        
+    </apex:tabPanel>
+    
+    <apex:pageBlock title="Account Summary">
+        <apex:pageBlockSection >
+        	<!--Name: {! Account.Name } <br/>
+			Phone: {! Account.Phone } <br/>
+			Industry: {! Account.Industry } <br/>
+			Revenue: {! Account.AnnualRevenue } <br/>            
+            Account owner: {! Account.Owner.Name } <br/> -->
+            
+            <apex:detail relatedList="false"/>
+            <br />
+            <apex:relatedList list="Contacts"/>
+            <br />
+            <apex:relatedList list="Opportunities" pageSize="1"/>
+            <br />
+        </apex:pageBlockSection>
+        
+        <apex:pageBlock title="Account Summary">
+             	<apex:outputField value="{! Account.Name }"/>
+				<apex:outputField value="{! Account.Phone }"/>
+				<apex:outputField value="{! Account.Industry }"/>
+				<apex:outputField value="{! Account.AnnualRevenue }"/>
+		</apex:pageBlock>
+        
+        <apex:pageBlock title="Contacts">
+           <apex:pageBlockTable value="{!Account.contacts}" var="contact">
+                <apex:column >
+                        <apex:outputLink value="{! URLFOR($Action.Contact.Edit, contact.Id) }">Edit</apex:outputLink>
+                        &nbsp;
+                        <apex:outputLink value="{! URLFOR($Action.Contact.Delete, contact.Id) }">Del</apex:outputLink>
+               </apex:column>
+              <apex:column value="{!contact.Name}"/>
+              <apex:column value="{!contact.Title}"/>
+              <apex:column value="{!contact.Phone}"/>
+           </apex:pageBlockTable>
+        </apex:pageBlock> 
+    </apex:pageBlock>
+     
+    <apex:form >    
+        <apex:pageBlock title="Edit Account">
+             <apex:pageBlockSection >
+                  <apex:pageMessages />
+                  <apex:inputField value="{! Account.Name }"/>
+                  <apex:inputField value="{! Account.Phone }"/>       
+                  <apex:inputField value="{! Account.Industry }"/>       
+                  <apex:inputField value="{! Account.AnnualRevenue }"/>  
+             </apex:pageBlockSection>
+                    
+             <apex:pageBlockButtons >
+                  <apex:commandButton action="{! save }" value="Save" />        
+             </apex:pageBlockButtons>            
+        </apex:pageBlock>
+	</apex:form>
+</apex:page>

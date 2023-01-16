@@ -1,0 +1,129 @@
+<apex:page controller="FeedbackformBuilderController"> 
+     
+   <apex:includeScript value="{!URLFOR($Resource.LatestjQuery, 'LatestjQuery/jquery.js') }"/>
+    <script src = "../../soap/ajax/38.0/connection.js"></script> 
+    
+    <script type="text/javascript">
+    	sforce.connection.sessionId = '{!GETSESSIONID()}';
+    </script>
+          
+    <script type="text/javascript">
+    	function showProjects() {   
+           
+            
+            var clients = $('.clientClass').val() ;
+            var customers = new Array();
+            
+            if (clients.length > 0 ) {                
+                 
+                 var projects = $('.projects'); 
+                 projects.find('option').remove();
+                
+                 for(var i=0; i < clients.length;i++ ){
+                     customers[i] = "'"+ clients[i]+"'" ;                	   
+                 }   
+                
+            }  
+             
+            var state = {startTime : new Date().getTime()};
+            
+            var callback = {onSuccess: layoutResults,
+						    onFailure: queryFailed,
+							source: state};
+           
+           
+            sforce.connection.query("Select Name,Id From Project__c where Project__c.Client__r.Id IN("+customers.join()+")", callback);            
+         } 
+    
+         function queryFailed(error, source) {
+				jQuery('.error').innerHTML = "An error has occurred: " + error;
+		 }
+         
+        function layoutResults(queryResult, source) {
+			if (queryResult.size > 0) {
+				var output = "";
+				//get the records array
+				var records = queryResult.getArray('records');
+				//loop through the records and construct html string
+				var projects = $('.projects'); 
+                projects.find('option').remove();
+                
+                for (var i = 0; i < records.length; i++) {
+					var project = records[i]; 
+                    if(project.Name != "") { 
+                        projects.append($('<option>', {
+                            value: project.Id,
+                            text: project.Name
+                        }));
+                    } 
+				}
+				//render the generated html string
+                //source.output.innerHTML = output;
+			}
+		}
+    
+    </script>
+    
+    <apex:form >
+        <apex:sectionHeader title="Build Feedback form" />
+        <apex:pageBlock >
+    		<apex:pageBlockSection title="Form Information" columns="1" collapsible="false">
+        		<apex:outputLabel value="" id="error"  />
+                <apex:pageBlockSectionItem >
+	                    <apex:outputLabel value="Form Title" for="Form_Title"/>
+	                    <apex:inputText id="Form_Title" />
+               		  </apex:pageBlockSectionItem> 
+                     
+                     <apex:pageBlockSectionItem >
+	                    <apex:outputLabel value="Client"  />
+	                    <apex:selectList styleClass="clientClass" value="{!formClients}" multiselect="true" size="4" onchange="showProjects();" >
+	           		   			<apex:selectOptions value="{!Clients}"/>
+              			</apex:selectList>
+               		 </apex:pageBlockSectionItem> 
+                     
+                     <apex:pageBlockSectionItem >
+	                    <apex:outputLabel value="Select Projects"  />
+	                    <apex:selectList styleClass="projects" multiselect="true" size="4">
+                            	<apex:selectOption itemValue="" itemLabel="--Select--"/>
+                            </apex:selectList>  
+               		 </apex:pageBlockSectionItem> 
+    		</apex:pageBlockSection>
+ 
+            <apex:pageBlockSection title="Form Configuration Section" columns="1" collapsible="false">
+                <apex:pageBlockSectionItem >
+	                 <apex:outputLabel value="Select At every"  />
+	                  <apex:selectList styleClass="days" multiselect="false" size="1">
+                        <apex:selectOption itemValue="" itemLabel="--Select--"/>
+                           <apex:selectOptions value="{!DaysList}"/>                            
+                      </apex:selectList>                       
+               	</apex:pageBlockSectionItem>  
+                
+                <apex:pageBlockSectionItem >
+	                 <apex:outputLabel value="Time(Hour)"  />
+	                  <apex:selectList styleClass="hours" multiselect="false" size="1">
+                        <apex:selectOption itemValue="" itemLabel="--Select--"/>
+                           <apex:selectOptions value="{!HoursList}"/>                            
+                      </apex:selectList>                       
+               	</apex:pageBlockSectionItem>  
+                
+                 <apex:pageBlockSectionItem >
+                     <apex:outputLabel value="AM/Pm"  />
+	                  <apex:selectList styleClass="hours" multiselect="false" size="1">
+                         <apex:selectOption itemValue="" itemLabel="--Select--"/>
+                         <apex:selectOption itemValue="AM" itemLabel="AM"/>   
+                         <apex:selectOption itemValue="PM" itemLabel="PM"/>    
+                      </apex:selectList>                       
+               	 </apex:pageBlockSectionItem> 
+            </apex:pageBlockSection>
+            
+            
+           <apex:pageBlockButtons >
+            	<apex:commandButton action="{!save}" value="Save" id="theButton"/>
+             </apex:pageBlockButtons>       
+        </apex:pageBlock>
+    </apex:form>
+    
+     <script type="text/javascript">
+    	showProjects();
+    </script>
+</apex:page>

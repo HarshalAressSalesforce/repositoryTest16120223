@@ -1,0 +1,259 @@
+<apex:page showHeader="false" sidebar="false" controller="CommunitiesLoginController" standardStylesheets="true" docType="html-5.0">
+    
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <style>
+            
+            
+            body{
+             
+            }
+            
+            form {
+            height: 100%;
+            color: white;
+            }
+            
+            .form-control {
+            height: 50px !important;
+            width: 340px !important;
+            border: none !important;
+            padding-left: 14% !important;
+            }
+            
+            .input-group {
+            margin-bottom: 20px !important;
+            }
+            
+            .loginGrid {
+            padding-top: 30%;
+            }
+            
+            .loginGrid .ceatlogo {
+            text-align: center !important;
+            margin: 0 auto;
+            margin-bottom: 10px;
+            height: 45px;
+            }
+            
+            .loginGrid .linkStyle {
+            text-align: left!important;
+            margin-bottom: 20px;
+            display: inline-block;
+            }
+            
+            .linkStyle{
+            color: #FFF !important;
+            font-weight: bold;
+            }
+            
+            .linkStyle:hover {
+            color: #FFF;
+            font-weight: bold;
+            }
+            
+            .linkCenter{
+            color: #FFF;
+            font-weight: bold;
+            margin-top: 10px
+            }
+            
+            .loginFrm {
+            padding: 11% 0% 0% 20%;
+            }
+            
+            .LoginBtn{
+            width:100%;
+            background: #0171A9 !important;
+            color: #fff !important;
+            font-size: 14px;
+            font-weight: bold;
+            border: none !important;
+            border-radius: 0px !important;
+            padding: 8px 5px !important;
+            margin-bottom: 10px !important;
+            height: 45px;
+            }
+            
+            .input-group-addon{
+            border: none !important;
+            background:  white !important;
+            }
+            
+            div.message.infoM3{
+            width: 25%;
+            font-size: 13px;
+            border: 0px;
+            padding-left: 10px;
+            border-radius: 20px;
+            background-color: rgba(22, 128, 213, 0.9);
+            font-weight: bold;
+            margin: 0 auto !important;
+            height: 63px;
+            }
+            
+            div.message.errorM3 {
+            width: 26%;
+            font-size: 13px;
+            border: 0px;
+            padding-left: 10px;
+            border-radius: 20px;
+            background-color: rgba(249, 209, 214, 0.9);
+            font-weight: bold;
+            margin: 0 auto !important;
+            height: 50%;
+            }
+            
+            div.message.confirmM3{
+            width: 26%;
+            font-size: 13px;
+            border: 0px;
+            padding-left: 10px;
+            border-radius: 20px;
+            background-color: rgba(171, 235, 198 ,0.9);
+            font-weight: bold;
+            margin: 0 auto !important;
+            height: 63px;
+            }
+            
+            div.message.warningM3{
+            width: 26%;
+            font-size: 13px;
+            border: 0px;
+            padding-left: 10px;
+            border-radius: 20px;
+            background-color: rgba(22, 128, 213, 0.9);
+            font-weight: bold;
+            margin: 0 auto !important;
+            height: 63px;
+            }
+            
+            body .bPageBlock {
+            border-top-width: 0 !important;
+            }
+            
+            body .bPageBlock {
+            background-color: transparent !important;
+            border-bottom: 0px !important;
+            border-left: 0px !important;
+            border-right: 0px !important;
+            -moz-border-radius: 0px !important;
+            -webkit-border-radius: 0px !important;
+            border-radius: 0px !important;
+            }
+            
+            .h4, .h5, .h6, h4, h5, h6 {
+            margin-top: 0px;
+            }
+            
+            .input-group-addon {
+            z-index: 0;
+            position: absolute;
+            margin-top: 0%;
+            }
+            
+            input {
+            margin-bottom: 26px;
+            }
+            
+            .input-group-addon {
+            padding: 17px 15px !important;
+            }
+            
+            
+            /*responsive CSS*/
+            @media (max-width:1180px) {
+            
+            }
+            
+            @media (max-width:767px) {
+            body{
+            
+            } 
+            }
+            
+            @media (min-width:768px) and (max-width:1024px) {
+            body{
+            
+            }           
+            }
+            
+            @media (max-width:640px) {
+            body{
+          
+            }
+            .loginFrm {
+            padding: 35% 0% 0% 20%;
+            }
+            
+            .form-control {
+            width: 230px !important;
+            }
+            
+            div.message.errorM3 {
+            width: 75%;
+            }
+            div.message.infoM3{
+            width: 75%;
+            }
+            div.message.confirmM3{
+            width: 75%;
+            }
+            div.message.warningM3{
+            width: 75%;
+            }
+            
+            }
+            
+            @media (max-width:350px) {
+            body{
+           
+            }
+            
+            
+            
+            }
+            
+        </style>   
+    </head>
+    
+    <body>
+        <!-- To allow Salesforce to display error messages -->
+        <apex:form id="fm" >
+            <apex:pageBlock id="loginFrm" >
+                <div class="loginFrm" >
+                    <apex:outputPanel id="aas"><apex:pageMessages /> <br /></apex:outputPanel>
+                    
+                    <center>
+                     
+                        
+                        <apex:panelGrid columns="1"  styleClass="loginGrid">
+                            
+                            <apex:input id="email" styleclass="form-control" value="{!username}">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            </apex:input>
+                            
+                            <apex:inputSecret id="password" styleclass="form-control" value="{!password}" >
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            </apex:inputSecret>
+                            
+                            <apex:outputPanel id="buttonList">
+                                <apex:commandButton action="{!loginUser}" value="Log in" id="Login" styleClass="LoginBtn" />
+                                <apex:commandLink value="Forgot your Password?" action="{!forgotpswd}" styleClass="linkStyle" />
+                            </apex:outputPanel>
+                            <!-- <div class="text-center linkCenter"> Are you an employee? Login here </div> -->
+                            
+                        </apex:panelGrid>
+                    </center>
+                    
+                </div>
+            </apex:pageBlock>
+        </apex:form>
+    </body>
+    
+</apex:page>

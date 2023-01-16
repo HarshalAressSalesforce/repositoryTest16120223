@@ -1,0 +1,66 @@
+<template>    
+    <div class="slds-grid slds-wrap">
+        <div class="slds-size_1-of-2">            
+            <div class="slds-form-element">                
+                <div class="slds-form-element__control">                    
+                    <lightning-input type="text" name="numberOfOrders" label="Provide number of orders" value={numberOfOrders}  onchange={setNumberOfOrder}></lightning-input>
+                </div>
+            </div>
+        </div>    
+        <div class="slds-size_1-of-2" >
+            <div class="slds-form-element" style="margin:25px 0 0 4px;">                
+                <div class="slds-form-element__control">
+                    <lightning-button label="Generate Orders" 
+                        onclick={showOrders}>
+                    </lightning-button>
+                </div>
+            </div>
+        </div> 
+    </div>
+    
+     
+
+
+    <template if:true={showList}>
+        <br /> 
+        <lightning-card  title="Provide Order Information">
+            <table class="slds-table">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Name">Sr. No.</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="Start Date">Start Date</div>
+                    </th>  
+                    <th class="" scope="col">
+                        <div class="slds-truncate" title="End Date">End Date</div>
+                    </th>
+                    
+                    </tr>
+                </thead> 
+                <tbody>
+                    <template for:each={orderList} for:item="orderItem">
+                        <tr key={orderItem.SrNo}>
+                            <td>{orderItem.SrNo}</td>
+                            <td><lightning-input type="date" data-type="EffectiveDate" data-id={orderItem.SrNo}  name=EffectiveDate_{orderItem.SrNo} value={orderItem.EffectiveDate}  onchange={handleEffectveDateChange}></lightning-input></td>
+                            <td><lightning-input type="date" data-type="Endate" data-id={orderItem.SrNo} name=EndDate_{orderItem.SrNo} value={orderItem.EndDate}  onchange={handleEffectveDateChange}></lightning-input></td> 
+                        </tr>
+                    </template> 
+                </tbody>
+            </table>
+            <br />
+            <div style="float:right;">
+                <div class="slds-form-element" style="margin-left:4px;">                
+                    <div class="slds-form-element__control">
+                        <lightning-button label="Genrate Orders" 
+                            onclick={generateOrders}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+        </lightning-card> 
+    </template>
+
+    
+</template>

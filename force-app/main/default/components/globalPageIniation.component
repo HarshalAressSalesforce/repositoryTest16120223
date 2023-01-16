@@ -1,0 +1,24 @@
+<apex:component > 
+    <apex:attribute name="pagingObject" description="paginiationHandler" type="ApexPages.StandardSetController" required="true"/>  
+    <apex:attribute name="pagingObject" description="paginiationHandler" type="ApexPages.StandardSetController" required="true"/>    
+    <!--<apex:outputPanel styleClass="globalPagination" rendered="{! (pagingObject.pageNumber * pagingObject.pageSize) <= pagingObject.ResultSize }">
+       <apex:commandButton rendered="{!pagingObject.hasPrevious}" value="first" action="{!pagingObject.first}"/>
+       <apex:commandButton rendered="{!pagingObject.hasPrevious}" value="Previous" action="{!pagingObject.previous}" styleClass="previous" />
+       <apex:outputText rendered="{!(pagingObject.pageNumber * pagingObject.pageSize) < pagingObject.ResultSize}" value="{!pagingObject.pageNumber * pagingObject.pageSize} Of {!pagingObject.ResultSize}"></apex:outputText>
+        
+       <apex:commandButton rendered="{!pagingObject.hasNext}" value="next" action="{!pagingObject.next}"/>
+       <apex:commandButton rendered="{!pagingObject.hasNext}" value="last" action="{!pagingObject.last}"/>
+    </apex:outputPanel> -->
+    
+      
+     <apex:outputPanel styleClass="globalPagination" rendered="{! pagingObject.ResultSize > 0}" >
+           
+       <br/>
+       <apex:commandButton rendered="{!pagingObject.hasPrevious}" value="First" action="{!pagingObject.first}"/>
+       <apex:commandButton rendered="{!pagingObject.hasPrevious}" value="Previous" action="{!pagingObject.previous}" styleClass="previous" />
+       <apex:outputText rendered="{! (pagingObject.pageNumber * pagingObject.pageSize) <= pagingObject.ResultSize }" value="{!pagingObject.pageNumber * pagingObject.pageSize} Of {!pagingObject.ResultSize}"></apex:outputText> 
+       <apex:outputText rendered="{! (pagingObject.pageNumber * pagingObject.pageSize) > pagingObject.ResultSize }" value="{!pagingObject.ResultSize } Of {!pagingObject.ResultSize}"></apex:outputText> 
+       <apex:commandButton rendered="{!pagingObject.hasNext}" value="Next" action="{!pagingObject.next}"/>
+       <apex:commandButton rendered="{!pagingObject.hasNext}" value="Last" action="{!pagingObject.last}"/>
+       </apex:outputPanel>   
+</apex:component>

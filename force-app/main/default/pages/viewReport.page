@@ -1,0 +1,47 @@
+<apex:page id="thePage" showHeader="false" docType="HTML-5.0"  sidebar="false" action="{!loadSurvey}"  standardStylesheets="false" controller="surveyQuestions" extensions="questionBank,surveyConfigs">   
+    <html>
+        <head>
+            <title>View Report for survey</title>
+            <apex:include pageName="surveyHeaderTags" />
+            <apex:includeScript value="{!$Resource.question}"/>
+        </head>
+        <body>
+            <apex:include pageName="surveyHeader" /> 
+            <c:topPageNavigation myPageTitle="View Report for survey" /> 
+            <section class="bodyContainer">
+                <div class="container clear">
+                    
+                    <div class="content-box questionBoxSeparator"> 
+                        <div class="floatRight clear">
+                            <apex:outputLink value="{!$Page.SurveyList}"  styleClass="green-btn">
+                                Go to Manage Survey
+                            </apex:outputLink>
+                        </div>
+                        
+                        <div class="clear">
+                            
+                            <c:surveySection surveyDetails="{!surveyDetails}" />  
+                                                         
+                            
+                        </div>
+                        
+                    </div>
+                    
+                    <apex:repeat value="{!questionReport}" var="questionId" >
+                        <div class="content-box questionTopSpacing"> 
+                            
+                            
+                            <div class="questionBox">
+                                {!questionReport[questionId]} <br />
+                                <div class="pie-graph">
+                                    <c:showGraph questionId="{!questionId}" surveyId="{!surveyDetails.Id}"/>
+                                </div>
+                            </div> 
+                        </div> 
+                    </apex:repeat> 
+                </div> 
+            </section>  
+            <apex:include pageName="surveyFooter" /> 
+        </body>
+    </html>
+</apex:page>

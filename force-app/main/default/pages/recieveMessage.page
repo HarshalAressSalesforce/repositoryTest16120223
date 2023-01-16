@@ -1,0 +1,5 @@
+<apex:page controller="DurablePushTopicStreamingController" action="{!getAuthentication}">
+   
+     sfs-->{!token}
+    <c:DurablePushTopicEventDisplay1 channel="{!channel}" replayFrom="{!replayFrom}" auThtoken="{!token}" />
+</apex:page>

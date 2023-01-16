@@ -1,0 +1,172 @@
+<apex:page controller="EmailListing" action="{!deleteCustomEmailInit}" showHeader="false" sidebar="false" standardStylesheets="false">    
+        <html>
+            <head>
+             <script>
+                 var flag ='{!$CurrentPage.parameters.idToDelete}';
+                 var currentTab = 'Leads';  
+                 if(flag != "") 
+                 {
+                     currentTab  = 'CustomEmail';
+                     makeActivTab(currentTab) ;
+                 }
+                </script>             
+             <apex:includeScript value="{!$Resource.sbRecipientTabClick}"/>                
+             <title>Recipients</title> 
+             <apex:include pageName="surveyHeaderTags" />
+             <!-- for jquery alert box -->
+             <apex:stylesheet value="{!URLFOR($Resource.jqueryConfirmstyles, 'jqueryConfirmstyles/jqueryConfirmstyles.css')}"/>
+             <apex:stylesheet value="{!URLFOR($Resource.jQueryConfirmCss, 'jquery.confirm/jquery.confirm.css')}"/>
+             <!-- for jquery alert box -->  
+            </head>
+            <body class="recipients-body">
+                <apex:include pageName="surveyHeader" />
+                <c:topPageNavigation myPageTitle="Select Recipient" /> 
+                <section class="bodyContainer">
+                    <div class="container clear">
+                        <apex:form styleClass="searchForm">
+                        <div class="white-box">
+                            <div class="floatRight clear">
+                                 <apex:outputLink value="{!$Page.SurveyList}"  styleClass="green-btn" style="font-weight: bold;">
+                                    Go to Manage Survey
+                                 </apex:outputLink>
+                                <apex:outputLink value="{! $page.previewSurvey }" target="_blank" styleClass="green-btn fitlerLeftSpace">
+                                    View Preview
+                                    <apex:param name="surveyId" value="{! surveyId }" />
+                                </apex:outputLink>
+                             </div>
+                         <div class="clear">&nbsp;</div>
+                         <c:surveyTabs surveyId="{!surveyId}" />
+                         <apex:outputText >                                         
+                             <div class="sectionTitle"> Add Recipients to Survey</div>                                        
+                         </apex:outputText> 
+                         <div class="clear">&nbsp;</div>
+                         <ul class="tab recipient-tabs">
+                            <li><a href="javascript:void(0)" Id="tabLeadsId" class="tablinks" onclick="clickTab('Leads')">Leads</a></li>
+                            <li><a href="javascript:void(0)" Id="tabContactsId" class="tablinks" onclick="clickTab('Contacts')">Contacts</a></li>
+                            <li><a href="javascript:void(0)" Id="tabCustomEmailId" class="tablinks" onclick="clickTab('CustomEmail')">Custom Email</a></li>
+                         </ul>  
+                        
+                        <div id="Leads" class="tabcontent no-padding">
+                            <apex:OutputPanel layout="block" id="commonRerenderLeads">
+                            <!--<apex:outputLabel id="outputMsg" styleClass="success"><span class="outputMsgCss"> {!outputMsg } </span></apex:outputLabel>-->
+                            <apex:pageMessages id="showLeadMsg"></apex:pageMessages>                            
+                            <!--<div class="container clear">-->                            
+                                <apex:pageBlock rendered="{!(lstLeadEmail.size > 0)}">
+                                    <apex:OutputPanel layout="block" styleclass="inner-table">
+                                        <apex:pageBlockTable value="{!lstLeadEmail}" var="l" id="tblLead" styleClass="defaultTable" >                                                
+                                            <apex:column styleClass="Outputter3">
+                                                <apex:facet name="header">
+                                                <apex:inputCheckbox onclick="toggle(this);"/>
+                                                </apex:facet>
+                                                <apex:outputPanel styleClass="requiredInput" layout="block">
+                                                <!--<apex:outputPanel styleClass="requiredBlock" layout="block"/> -->
+                                                    <apex:inputCheckbox id="inputId" required="true"  value="{!l.selected}"/>
+                                                </apex:outputPanel>
+                                            </apex:column>
+                                            <apex:column headerValue="Name" colspan="2"  styleClass="Outputter3">
+                                                <apex:outputField value="{!l.led.Name}"/>
+                                            </apex:column>
+                                            <apex:column headerValue="Email" colspan="2"  styleClass="Outputter3">
+                                                <apex:outputField value="{!l.led.Email}" />
+                                            </apex:column>
+                                        </apex:pageBlockTable>
+                                    </apex:OutputPanel>
+                                </apex:pageBlock>
+                            <!--</div>-->
+                            </apex:OutputPanel>
+                        </div>
+                        <div id="Contacts" class="tabcontent no-padding">
+                        <apex:OutputPanel layout="block" id="commonRerenderContacts">
+                        <!--<apex:outputLabel styleClass="success"><span class="outputMsgCss"> {!outputMsg } </span></apex:outputLabel>-->
+                        <apex:pageMessages id="showContactMsg"></apex:pageMessages>
+                            
+                            <div class="container clear">
+                                <apex:pageBlock rendered="{!(lstContactEmail.size > 0)}">
+                                    <apex:OutputPanel layout="block" styleclass="inner-table" >
+                                        <apex:pageBlockTable value="{!lstContactEmail}" var="c" id="tblContact" styleClass="defaultTable">    
+                                            <apex:column >
+                                                <apex:facet name="header">
+                                                <apex:inputCheckbox onclick="toggle(this);"/>
+                                                </apex:facet>
+                                                <apex:outputPanel styleClass="requiredInput" layout="block">
+                                                <!--<apex:outputPanel styleClass="requiredBlock" layout="block"/> -->
+                                                    <apex:inputCheckbox id="inputId" required="true"  value="{!c.selected}" />
+                                                </apex:outputPanel>
+                                            </apex:column>
+                                            <apex:column headerValue="Contact Name" colspan="2">
+                                                <apex:outputField value="{!c.con.Name}"/>
+                                            </apex:column>
+                                            <apex:column headerValue="Contact Email" colspan="2">
+                                                <apex:outputField value="{!c.con.Email}"/>
+                                            </apex:column>                                            
+                                        </apex:pageBlockTable>
+                                    </apex:OutputPanel>
+                                </apex:pageBlock>
+                            </div>
+                            </apex:OutputPanel>
+                        </div>
+                        <div id="CustomEmail" class="tabcontent no-padding">
+                            <apex:OutputPanel layout="block" id="commonRerenderCustom">
+                            <!--<apex:outputLabel styleClass="success"><span class="outputMsgCss"> {!outputMsg } </span></apex:outputLabel>-->
+                            <apex:pageMessages id="showCustomMsg"></apex:pageMessages>                        
+                            <section class="bodyContainer">
+                                <div class="container clear">
+                                    <div class="content-box email-styling">
+                                        
+                                        
+                                        <div class="formFeild">
+                                            <label><span class="spanLblEmail">Enter Email</span></label>
+                                            <div class="feild">
+                                                <apex:outputPanel styleClass="requiredInput" layout="block">
+                                                    <apex:outputPanel styleClass="requiredBlock" layout="block"/> 
+                                                    <apex:inputText id="theFieldInput" value="{!txtCustomEmail}" html-placeholder="Enter Email Id"  styleclass="txtCustomeEmail" />
+                                                </apex:outputPanel>
+                                                <span class="spnEmailNote">Note - Enter email separated by Commas E.g. abc1@domain.com,abc2@domain.com</span>                                                                                                                                            
+                                            </div>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container clear">
+                                    <apex:OutputPanel layout="block"  styleclass="inner-table">
+                                    <apex:pageBlock rendered="{!(lstAllCustomEmail.size > 0)}">
+                                        <label><span class="spanLblEmail">List of applied emails</span></label>
+                                        <apex:pageBlockTable value="{!lstAllCustomEmail}" id="tblCustomEmail"  var="cus" styleClass="defaultTable">                                                                                       
+                                            <apex:column headerValue="Custom Email" colspan="2">
+                                                <apex:outputField value="{!cus.email__c}"/>
+                                            </apex:column>                                            
+                                            <apex:column headerValue="Delete" styleClass="Outputter3">
+                                                <div class="tooltip">
+                                                    <apex:outputlink value="/apex/SBRecipient?idToDelete={!cus.Id}&surveyId={!$CurrentPage.parameters.surveyId}"  onclick="return returnConfirm(this,'Are you sure to delete the Custom Email?');">
+                                                        <apex:image url="{!$Resource.DeleteIcon}"/>                                                
+                                                    </apex:outputlink>
+                                                    <span class="tooltiptext">Delete Email</span>
+                                                </div>
+                                            </apex:column>
+                                        </apex:pageBlockTable>                                        
+                                   </apex:pageBlock>
+                                   </apex:OutputPanel>                                
+                                </div>
+                            </section>
+                            </apex:OutputPanel>
+                        </div>
+                        
+                    <div class="feild buttons">                
+                            <apex:commandButton value="Go To Send Survey" action="{! gotoSendSurvey }" styleClass="green-btn"   />
+                            <apex:commandButton value="Add Recipient" rerender="commonRerenderLeads,commonRerenderContacts,commonRerenderCustom"  Action="{!processSelected}" styleClass="green-btn fitlerLeftSpace" /> 
+                            <!--previous was reRender="showmsg" rerender="table" -->
+                            <apex:commandButton value="Cancel" Action="{!CancelAction}" styleClass="red-btn fitlerLeftSpace"/>
+                    </div>
+                    </div>
+                    </apex:form>
+                    </div>               
+                </section>
+                <apex:include pageName="surveyFooter" />                                
+                
+                <!-- for jquery alert box -->
+                <apex:includeScript value="{!$Resource.jQueryConfirmJs}"/>
+                <apex:includeScript value="{!$Resource.jQueryConfirmscript}"/> 
+                <!-- for jquery alert box -->
+                  
+            </body>
+        </html>
+</apex:page>

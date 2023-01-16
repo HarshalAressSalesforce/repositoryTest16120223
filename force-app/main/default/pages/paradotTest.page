@@ -1,0 +1,13 @@
+<apex:page showHeader="false" sidebar="false" controller="paradotController" standardStylesheets="true" docType="html-5.0">
+    
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          
+    </head>
+    
+    <body>
+         
+        
+    </body>
+    
+</apex:page>

@@ -1,0 +1,26 @@
+<aura:component controller="records" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="objects" type="sObject[]" default="[]" />
+    <aura:attribute name="selectedObject" type="String" default="" />
+    
+    <strong style="font-family: Times New Roman Mäori;font-size:30px;">
+        &auml;<br />
+        &euml;;<br />
+        &iuml;;<br />
+        &ouml;;<br />
+        &uuml;;<br />
+        &yuml;
+    </strong>
+    
+    
+<!--
+    
+    <lightning:select name="Object" label="Object" value="{!v.selectedObject}">
+        <option value="">choose one...</option>
+        <aura:iteration items="{!v.objects}" var="obj">
+            <option value="{!obj.name}" >{!obj.label}</option>
+        </aura:iteration>
+    </lightning:select>
+    -->
+    
+</aura:component>

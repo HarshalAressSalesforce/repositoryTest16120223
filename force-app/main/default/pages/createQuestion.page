@@ -1,0 +1,109 @@
+<apex:page id="thePage" showHeader="false" docType="HTML-5.0"  sidebar="false" standardStylesheets="false" controller="questionBank" extensions="surveyConfigs">   
+    <html>
+        <head>
+            <title>Create Question</title>
+            <apex:include pageName="surveyHeaderTags" /> 
+        </head>
+        <body>
+            <apex:include pageName="surveyHeader" /> 
+            <c:topPageNavigation myPageTitle="Create Question" /> 
+            <section class="bodyContainer">
+                <div class="container clear">
+                    <div class="white-box">
+                         <div class="floatRight clear">
+                            <apex:outputLink value="{!$Page.manageQuestions}"  styleClass="green-btn">
+                                Go to Manage Questions
+                            </apex:outputLink>
+                        </div>
+                    
+                        <apex:outputPanel styleClass="clear"  id="sucessMessage">
+                               
+                                
+                                
+                                <!--<apex:messages styleClass="success"/> -->
+                                <apex:pageMessage rendered="{!IsSubmiited}" summary="List of errors" severity="success" /> <apex:pageMessages />
+                                
+                                <apex:actionStatus id="showQuestionProgress">
+                                    <apex:facet name="start">                                                              
+                                        <apex:image url="{!$Resource.loading}" title=" Please wait .."/>
+                                    </apex:facet>
+                                    <apex:facet name="stop">
+                                   
+                                <apex:form styleClass="mainForm" id="theForm"> 
+                                    <div Class="formFeild"> 
+                                        <label>Question</label>
+                                        <div class="feild">
+                                            <apex:outputPanel styleClass="requiredInput" layout="block">
+                                                <apex:outputPanel styleClass="requiredBlock" layout="block"/> 
+                                                <apex:inputText value="{!question}" id="theFieldInput"  html-placeholder="Enter Question" required="true" />
+                                            </apex:outputPanel>
+                                        </div>
+                                    </div>
+                                    
+                                    <div Class="formFeild"> 
+                                        <label>Status</label>
+                                        <div class="feild"> 
+                                            <apex:inputCheckbox value="{!questionStatus}" /> 
+                                        </div>
+                                    </div> 
+                                    
+                                    <div Class="formFeild"> 
+                                        <label>Type Of Question</label>
+                                        <div class="feild">  
+                                            <apex:selectRadio styleClass="typeQuestions" value="{!questionType}">
+                                                <apex:selectOptions value="{!questionTypes}" />
+                                            </apex:selectRadio>  
+                                        </div>
+                                    </div> 
+                                    
+                                    <div Class="formFeild add_more_label multiselect_add_more_label  radio_add_more_label slider_add_more_label hideMe"> 
+                                        <label>&nbsp;</label>
+                                        <div class="feild">                                                 
+                                            <!-- <apex:outputLabel styleClass="add_more_button" value="Add More Options"  /> -->
+                                            <p class="add_more_button">Add More Options</p>
+                                        </div>
+                                    </div> 
+                                    
+                                    <div Class="formFeild  hideMe"> 
+                                        <label>&nbsp;</label>
+                                        <div class="feild optionContainer options"></div>
+                                    </div>  
+                                                                
+                                    <apex:inputHidden value="{!selectedOptions}" id="selectedOptions"/> 
+                                    
+                                    <div class="formFeild"> 
+                                        <label>&nbsp;</label>
+                                        <div class="feild">    
+                                        
+                                        <!-- status="showQuestionProgress"   reRender="sucessMessage" -->                              
+                                            <apex:commandButton value="Save" action="{! addQuestion}" styleClass="green-btn"  onClick="storeValue('{!$Component.selectedOptions}')" />
+                                        </div>
+                                    </div> 
+                                    
+                                    <script type="text/javascript" language="javascript"> 
+                                    //initActions();
+                                    </script>
+                                </apex:form>
+                                 </apex:facet>
+                                </apex:actionStatus>  
+                        </apex:outputPanel>
+                        
+                        <apex:form >
+                            <div class="formFeild hideMe slider_question_type multiselect_question_type radio_question_type"> 
+                                <div class="formBottomFields">
+                                    <apex:inputText value="{!options}" id="options"  styleClass="questionOptionText" />                                    
+                                    <apex:image url="{!$Resource.DeleteIcon}" styleClass="delete_option" title="Remove"/> 
+                                </div>
+                            </div> 
+                        </apex:form>
+                    </div> 
+                </div> 
+            </section> 
+            
+            <apex:include pageName="surveyFooter" /> 
+            <apex:includeScript value="{!$Resource.question}"/>
+            
+            
+        </body>
+    </html>
+</apex:page>

@@ -1,0 +1,43 @@
+<aura:component controller="cityHandler">
+    <aura:attribute name="title" type="String"/>
+    <aura:attribute name="cities" type="City__c[]"/>
+    <aura:attribute name="city" type="City__c"  default="{'sobjectType': 'City__c',
+                                                                  'Name': '',
+                                                                  'AressH__Decription__c': '' }" />
+
+	 {!v.cities}
+    <ui:button press="{!c.addNewCityForm}" label="Add new City"  />
+    <div id="Heading">{!v.title}</div>
+    <div id="listing" style="display:block;">
+       Listing
+    </div>
+    
+    
+    <div class="slds-col slds-col--padded slds-p-top--large">
+    <div id="add_new_form"  style="display:none;">
+       <div aria-labelledby="cityform">
+       		<form class="slds-form--stacked">
+                <div class="slds-form-element slds-is-required">
+                      <div class="slds-form-element__control">
+                          <ui:inputText aura:id="title" label="Title" class="slds-input" labelClass="slds-form-element__label"
+                              value="{!v.city.Name}" required="true"/>
+                      </div>
+                 </div>
+                
+                 <div class="slds-form-element slds-is-required">
+                     <div class="slds-form-element__control">
+                         <ui:inputTextArea aura:id="description" label="Description"
+                                           class="slds-input" labelClass="slds-form-element__label"  value="{!v.city.AressH__Decription__c}"/>
+                         
+                     </div>
+                </div>
+                <div class="slds-form-element slds-is-required">
+                    <div class="slds-form-element__control">
+               			 <ui:button label="Add new City" press="{!c.createCity}"/>
+                     </div>
+                </div>
+           </form>
+       </div>
+    </div>
+    </div>
+</aura:component>

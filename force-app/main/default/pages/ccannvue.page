@@ -1,0 +1,90 @@
+<apex:page controller="ccavnue" docType="HTML-5.0">
+      <apex:outputpanel id="checkout">
+          <apex:outputpanel rendered="{!IF(!confirm,true,false)}">
+          <apex:form styleClass="mainForm" id="theForm"> 
+              <table>
+                 <tr><td>Delivery Customer Address: </td>
+                     <td><apex:inputText value="{!delivery_cust_address}" />
+                     
+                     
+                     </td>
+                </tr>
+                <tr><td>Delivery Customer Name: </td>
+                    <td><apex:inputText value="{!delivery_cust_name}" /></td>
+               </tr>
+               <tr><td>Billing Customer Email:</td>
+                   <td><apex:inputText value="{!billing_cust_email}" /></td>
+               </tr>
+               <tr><td>Billing Customer Telephone</td>   
+                   <td><apex:inputText value="{!billing_cust_tel}" /></td>   
+               </tr>
+               <tr><td>Billing Customer Country</td>   
+                   <td> <apex:inputText value="{!billing_cust_country}" /></td>   
+               </tr>   
+               <tr>
+                   <td>Billing Customer Address</td>   
+                   <td><apex:inputText value="{!billing_cust_address}" /></td>
+               </tr>   
+               <tr>
+                   <td>Billing Customer Name</td>   
+                   <td><apex:inputText value="{!billing_cust_name}" /></td>
+               </tr>           
+               <tr>
+                   <td>Amount</td>
+                   <td><apex:inputText value="{!Amount}" /></td>
+               </tr>        
+               <tr>
+                   <td>Billing Customer State</td>
+                   <td><apex:inputText value="{!billing_cust_state}" /></td>
+               </tr>
+               <tr>
+                   <td>Billing Customer City</td>
+                   <td><apex:inputText value="{!billing_cust_city}" /></td>
+               </tr>           
+               <tr>
+                   <td>Delivery Customer State</td>
+                   <td><apex:inputText value="{!delivery_cust_state}" /></td>
+               </tr>           
+               <tr>
+                   <td>Delivery Customer City</td>
+                   <td><apex:inputText value="{!delivery_cust_city}" /></td>
+               </tr>           
+               <tr>
+                    <td>&nbsp;</td>
+                    <td><apex:commandButton reRender="checkout" value="checkout" action="{! proceed}" styleClass="green-btn"  /></td>
+               </tr>
+             </table> 
+          </apex:form>
+          </apex:outputpanel>
+         
+      
+      <apex:outputpanel rendered="{!confirm}">
+       
+      <form name="form1" method="post" action="https://www.ccavenue.com/shopzone/cc_details.jsp" id="form1">
+        Amount: {!Amount} <br />
+        <input id="delivery_cust_tel" name="delivery_cust_tel" value="{!delivery_cust_tel}" type="hidden"/>
+        <input id="delivery_cust_address" name="delivery_cust_address" value="{!delivery_cust_address}" type="hidden"/>
+        <input id="delivery_cust_name" name="delivery_cust_name" value="{!delivery_cust_name}" type="hidden"/>
+        <input id="billing_cust_email" name="billing_cust_email" value="{!billing_cust_email}" type="hidden"/>
+        <input id="billing_cust_tel" name="billing_cust_tel" value="{!billing_cust_tel}" type="hidden"/>
+        <input id="billing_cust_country" name="billing_cust_country" value="{!billing_cust_country}" type="hidden"/>
+        <input id="billing_cust_address" name="billing_cust_address" value="{!billing_cust_address}" type="hidden"/>
+        <input id="billing_cust_name" name="billing_cust_name" value="{!billing_cust_name}" type="hidden"/>
+        <input id="RedirectURL" name="Redirect_Url" value="{!Redirect_Url}" type="hidden"/>
+        <input id="Merchant_Id" name="Merchant_Id" value="{! Merchant_Id }" type="hidden"/>
+        <input id="Amount" name="Amount" value="{! Amount}" type="hidden"/>
+        <input name="Checksum" id="Checksum" value="{!checksum }" type="hidden"/>
+        <input name="Order_Id" id="Order_Id" value="{!OrderId }" type="hidden"/>                                            
+        <input id="billing_cust_state" name="billing_cust_state" value="{!billing_cust_state}" type="hidden"/>
+        <input id="billing_cust_city" name="billing_cust_city" value="{!billing_cust_city}" type="hidden"/>
+        <input id="delivery_cust_state" name="delivery_cust_state" value="{!delivery_cust_state}" type="hidden"/>
+        <input id="delivery_cust_city" name="delivery_cust_city" value="{!delivery_cust_city}" type="hidden"/>
+    
+        <input  name="submit" value="Confirm Order" type="submit"/>
+        
+      
+    </form>
+     </apex:outputpanel>
+     
+      </apex:outputpanel>
+</apex:page>

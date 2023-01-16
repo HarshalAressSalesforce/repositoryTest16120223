@@ -1,0 +1,99 @@
+<apex:page id="thePage" showHeader="false" docType="HTML-5.0"  sidebar="false"
+           standardStylesheets="false" action="{!loadSurvey}" 
+           controller="surveyQuestions" extensions="questionBank,surveyConfigs">   
+    <html>
+        <head>
+            <title>{!surveyDetails.Name}</title>
+            <apex:include pageName="surveyHeaderTags" />
+            <apex:includeScript value="{!$Resource.question}"/>            
+            <apex:stylesheet value="{! URLFOR($Resource.IronRageSlider, 'ionRangeSliderDemo/css/normalize.css') }"/>
+            <apex:stylesheet value="{! URLFOR($Resource.IronRageSlider, 'ionRangeSliderDemo/css/ion.rangeSlider.css') }"/>
+            <apex:stylesheet value="{! URLFOR($Resource.IronRageSlider, 'ionRangeSliderDemo/css/ion.rangeSlider.skinFlat.css') }"/>    
+        </head>
+        <body>
+            <header class="mainHeader"> 
+                <div class="container clear">
+                    <!--<apex:outputLink value="{!$Site.Prefix}" styleClass="logo">-->
+                    <div styleClass="logo">
+                        <img src="{!$Resource.surveyLogo}" title="{$Label.Site}"/>    
+                    </div>
+                    <!--</apex:outputLink>-->
+                </div> 
+            </header>
+            <c:topPageNavigation myPageTitle="{!surveyDetails.Name}" /> 
+            <section class="bodyContainer">
+                <div class="container clear">
+                    <div class="white-box">
+                        
+                        <div class="sectionTitle">{!surveyDetails.Name}</div> 
+                        <p>{!surveyDetails.Description__c} {! $Site.CustomWebAddress }</p>
+                        
+                        <apex:outputPanel id="sucessMessage"> 
+                            
+                            <apex:pageMessages rendered="{!surveySubmitted}" />
+                            <apex:form rendered="{!IF(surveySubmitted == false,true,false)}" styleClass="mainForm" id="theForm">  
+                                
+                                <apex:repeat value="{!questionList}" var="question" id="questionContainer"> 
+                                    <div class="questionBox">
+                                        
+                                        {!questionList[question].question.Question__c} 
+                                    </div>
+                                    
+                                    <apex:outputPanel styleClass="questionsPreview" rendered="{! IF(questionList[question].question.typeOfQuestion__c == 'radio',true,false)}" >
+                                        <apex:selectRadio value="{!questionList[question].value}" >
+                                            <apex:selectOptions value="{!surveyQuestionListOptions[questionList[question].question.Id]}"/>                                                  
+                                        </apex:selectRadio> 
+                                    </apex:outputPanel> 
+                                    
+                                    <apex:outputPanel rendered="{! IF(questionList[question].question.typeOfQuestion__c == 'slider',true,false)}" >
+                                           <apex:input value="{!questionList[question].value}" styleClass="range_{!questionList[question].question.Id}" />
+                                           
+                                            <script type="text/javascript"> 
+                                                 var sliderOptions = [];
+                                                 <apex:repeat value="{!surveyQuestionOptions[questionList[question].question.Id]}" var="option" > 
+                                                      sliderOptions.push('{!option}'); 
+                                                 </apex:repeat> 
+                                                  //$(function () {
+                                                      
+                                                      $(".range_{!questionList[question].question.Id}").ionRangeSlider({
+                                                           hide_min_max: false,
+                                                           keyboard: true,                                                       
+                                                           type: 'single', 
+                                                           grid: true,
+                                                           from:'{!questionList[question].value}',
+                                                           values:sliderOptions 
+                                                      }); 
+                                                      
+                                                      $(".range_{!questionList[question].question.Id}").on("change", function () {
+                                                            var $this = $(this),
+                                                                value = $this.prop("value");
+                                                            $this.val(value ); 
+                                                      });
+                                                 // });
+                                              </script>  
+                                         </apex:outputPanel> 
+                                    
+                                    <apex:outputPanel rendered="{! IF(questionList[question].question.typeOfQuestion__c == 'free_text',true,false)}" >
+                                        <apex:inputTextarea value="{!questionList[question].value}" rows="5" style="width:100%" /><p/>
+                                    </apex:outputPanel>  
+                                    <hr />
+                                </apex:repeat>
+                                
+                                <div class="formFeild"> 
+                                    <label>&nbsp;</label>
+                                    <div class="feild">                                     
+                                        <apex:commandButton status="showPreviewProgress" rendered="{! surveyHasQuestions}" reRender="sucessMessage" value="Save" action="{!saveRecipientFeedback}" styleClass="green-btn" />
+                                    </div>
+                                </div> 
+                            </apex:form>
+                        </apex:outputPanel> 
+                    </div>  
+                </div>    
+            </section> 
+            <apex:includeScript value="{!URLFOR($Resource.IronRageSlider, 'ionRangeSliderDemo/js/jquery-1.12.3.min.js') }"/>
+            <apex:includeScript value="{!URLFOR($Resource.IronRageSlider, 'ionRangeSliderDemo/js/ion.rangeSlider.js') }"/>
+            
+            <apex:include pageName="surveyFooter" /> 
+        </body>
+    </html>
+</apex:page>

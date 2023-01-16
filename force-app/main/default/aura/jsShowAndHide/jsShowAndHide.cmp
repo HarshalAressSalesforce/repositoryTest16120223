@@ -1,0 +1,27 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	<ltng:require scripts="{!$Resource.jquery}"></ltng:require>
+    <ltng:require scripts="{!$Resource.script}"></ltng:require>
+    <table>
+    	<tr><td class="click 1">+</td>
+            <td>1</td>
+        </tr>
+        <tr class="dataContainer" id="1"><td colspan="2">Testign1</td></tr>
+        <tr><td class="click 2">+</td>
+            <td>2</td>
+        </tr>
+        <tr class="dataContainer"  id="2"><td colspan="2">Testign2</td></tr>
+        
+        <tr><td class="click 3">+</td>
+            <td>3</td>
+        </tr>
+        <tr class="dataContainer"  id="3"><td colspan="4">Testign3</td></tr>
+        <tr><td class="click 4">+</td>
+            <td>4</td>
+        </tr>
+        <tr class="dataContainer" id="4"><td colspan="5">Testign4</td></tr>
+        <tr><td class="click 5">+</td>
+            <td>5</td>
+        </tr>
+        <tr class="dataContainer"  id="5"><td colspan="5">Testign5</td></tr>
+    </table>
+</aura:component>

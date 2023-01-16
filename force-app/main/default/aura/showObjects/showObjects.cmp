@@ -1,0 +1,20 @@
+<aura:component controller="FetchObjects" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	 <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="ObjectName" type="String[]" default="Account,Contact"/>
+    <aura:attribute name="fields" type="String[]" default="[]"/>
+    <aura:attribute name="Object_Name" type="String" default=""/>
+    <lightning:select aura:id="industryPicklist" label="" value="{!v.Object_Name}" onchange="{!c.showFields}" >
+                                <option value="">--None--</option>
+                                <aura:iteration items="{!v.ObjectName}" var="p" >
+                                    <option  value="{!p}" text="{!p}"/>
+                                </aura:iteration>
+                            </lightning:select>
+    
+    <lightning:select aura:id="industryPicklist" label="" value="{!v.Object_Name}">
+                                <option value="">--None--</option>
+                                <aura:iteration items="{!v.fields}" var="p" >
+                                    <option  value="{!p}" text="{!p}"/>
+                                </aura:iteration>
+                            </lightning:select>
+      
+</aura:component>

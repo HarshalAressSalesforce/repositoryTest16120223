@@ -1,0 +1,11 @@
+<apex:page controller="ccavnue" docType="HTML-5.0" action="{!initAction}"   >
+   <apex:detail /> 
+   {!EncData}
+   
+  Your posted data <br />
+  Firstname : {!firstname} <br />
+  Middlename: {!middlename} <br />
+  Lastname: {!lastname} <br />
+  
+ 
+</apex:page>

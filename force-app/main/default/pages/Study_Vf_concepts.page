@@ -1,0 +1,17 @@
+<apex:page >
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>Congratulations</h1>
+  This is your new Page
+  <!-- End Default Content REMOVE THIS -->
+  
+  Name -> {! $Site.Name } <br />
+  Domain->{! $Site.Domain} <br />
+  CustomWebAddress->{! $Site.CustomWebAddress} <br />
+  OriginalUrl->{! $Site.OriginalUrl} <br />
+  CurrentSiteUrl->{! $Site.CurrentSiteUrl} <br />
+  LoginEnabled->{! $Site.LoginEnabled} <br />
+  Prefix->{! $Site.Prefix} <br />
+  AdminEmailAddress-> {! $Site.AdminEmailAddress} <br />
+  
+  BaseUrl-> {! $Site.BaseUrl} <br />
+</apex:page>

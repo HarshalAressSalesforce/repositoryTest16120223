@@ -1,0 +1,12 @@
+<apex:page showHeader="false" sidebar="false" controller="paymentController"  action="{!loadPaymentData}"  standardStylesheets="true" docType="html-5.0"  >
+   <apex:form >
+   {!encData }
+    {!siteResponse }
+    
+     
+    
+    <apex:repeat value="{!response}" var="fieldKey">
+                <apex:outputText value="{!fieldKey}"/>:= {!response[fieldKey]}<br/>
+            </apex:repeat>
+            </apex:form>
+</apex:page>

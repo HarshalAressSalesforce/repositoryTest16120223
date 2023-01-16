@@ -1,0 +1,60 @@
+<apex:page sidebar="false" showHeader="false" docType="HTML-5.0" controller="editSurvey" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false" action="{! loadInfo }">
+    <html>
+        <head>
+            <title>Clone Survey</title> 
+            <apex:include pageName="surveyHeaderTags" />
+            <script>
+            // JavaScript function to check the value entered in the inputField
+            function checker(){
+                var val = document.getElementById('{!$Component.theForm.theFieldInput}').value;
+                if(val.startsWith(" ")){
+                    alert('Name cannot start with space');
+                }else{
+                    updateChecker();
+                }
+            }
+            </script>
+        </head>    
+        <body>
+            <apex:include pageName="surveyHeader" />
+            <c:topPageNavigation myPageTitle="Clone Survey: {!title}" />
+            
+            <section class="bodyContainer">
+                <div class="container clear">
+                    <div class="white-box">
+                         <div class="floatRight clear">
+                            <apex:outputLink value="{!$Page.SurveyList}"  styleClass="green-btn">
+                                Go to Manage Survey
+                            </apex:outputLink>
+                        </div>
+                        <apex:messages styleClass="success" />
+                        <apex:form styleClass="mainForm" id="theForm">
+                            <div class="formFeild">
+                                <label>Title</label>
+                                <div class="feild">
+                                    <apex:outputPanel styleClass="requiredInput" layout="block">
+                                        <apex:outputPanel styleClass="requiredBlock" layout="block"/> 
+                                        <apex:inputText value="{!Title}" id="theFieldInput"  html-placeholder="Enter Title for the survey" required="true" style=" margin-top: -60px;height: 47px !important;"/>
+                                    </apex:outputPanel>
+                                </div>
+                            </div>
+                            <div class="formFeild">
+                                <label>Description</label>
+                                <div class="feild">
+                                    <apex:inputTextarea value="{!Description}" html-placeholder="Description"  styleClass="text-editor"  style=" margin-top: -20px;height: 70px !important;"/>
+                                </div>
+                            </div>
+                            <div class="formFeild">
+                                <label>&nbsp;</label>
+                                <div class="feild">
+                                    <apex:commandButton styleClass="green-btn" action="{! makeClone }"  value="Make a Clone" />
+                                </div>
+                            </div>
+                        </apex:form>
+                    </div>
+                </div>
+            </section>
+            <apex:include pageName="surveyFooter" />
+        </body>
+    </html>
+</apex:page>

@@ -1,0 +1,64 @@
+<apex:page sidebar="false" showHeader="false" docType="HTML-5.0" controller="CreateSurvey" standardStylesheets="false" applyHtmlTag="true" applyBodyTag="false">
+    <html>
+        <head>
+            <title>Create Survey</title>
+            <apex:include pageName="surveyHeaderTags" />
+        </head>    
+        <body>
+            
+            
+            
+            <apex:include pageName="surveyHeader" />
+            <c:topPageNavigation myPageTitle="Create New Survey" />
+            <section class="bodyContainer">
+                <div class="container clear">
+                    <div class="white-box">
+                        
+                        <!-- <apex:outputText value="{!$Cache.Session.local.MyPartition.sessionTest}"/>
+                         <apex:outputText value="{!$Cache.Session.local.MyPartition.questions }"/> -->
+                         
+                         
+                         <div class="floatRight clear">
+                            <apex:outputLink value="{!$Page.SurveyList}"  styleClass="green-btn">
+                                Go to Manage Survey
+                            </apex:outputLink>
+                        </div>
+                        
+                        <c:surveyTabs surveyId="{!surveyId}" />
+                        <div class="sectionTitle"> Create New Survey</div>  
+                        
+                        <apex:pageMessages />
+                        <apex:form styleClass="mainForm clear" id="theForm">
+                            <div class="formFeild" id="formFeild">
+                                <label>Title</label>
+                                <div class="feild">
+                                    <apex:outputPanel styleClass="requiredInput" id="sname" layout="block">
+                                        <apex:inputText value="{!surveyName}" 
+                                        id="theFieldInput"  html-placeholder="Enter Title for the survey" 
+                                        required="true" />
+                                    </apex:outputPanel>
+                                </div>
+                            </div>
+                            <div class="formFeild">
+                                <label>Description</label>
+                                <div class="feild">
+                                    <apex:inputTextarea value="{!Description}" html-placeholder="Description"  styleClass="text-editor"  />
+                                </div>
+                            </div>
+                            <div class="formFeild">
+                                <label>&nbsp;</label>
+                                <div class="feild">
+                                    <apex:commandButton styleClass="green-btn"
+                                                        id="create" action="{! createSurvey }"  value="Save" />
+                                    &nbsp;&nbsp;
+                                    <apex:commandButton styleClass="green-btn" id="next" action="{! manageQuestions }"  value="Next" />
+                                </div>
+                            </div>
+                        </apex:form>
+                    </div>
+                </div>
+            </section>
+            <apex:include pageName="surveyFooter" />
+        </body>
+    </html>
+</apex:page>

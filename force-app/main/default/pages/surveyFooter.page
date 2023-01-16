@@ -1,0 +1,10 @@
+<apex:page >
+    <footer class="main-footer" style="margin-top:97px;">
+        <ul>
+            <li> <apex:outputLink value="{!$Site.Prefix}/{!$Page.privacyPolicy}" target="_blank">Privacy Policy</apex:outputLink> </li>
+            <li> <apex:outputLink value="{!$Site.Prefix}/{!$Page.TermsOfService}" target="_blank">Terms of Services</apex:outputLink> </li>
+        </ul>
+        <div class="copyright">© {!YEAR(TODAY())} Survey Builder, All rights reserved. </div>
+	</footer>  
+    
+</apex:page>

@@ -1,0 +1,83 @@
+<template> 
+
+    <div id="printDiv">
+        printMe
+        <button class="slds-button" onclick={printSection}> 
+            <lightning-icon icon-name="utility:chevronleft" size="small" alternative-text="Print" title="Print"></lightning-icon>
+           
+         </button>
+    </div>
+    <lightning-card  title="Calendar" >
+        <ul class="calControls">
+            <li class="left"> 
+                 <button class="slds-button" onclick={prev}> 
+                    <lightning-icon icon-name="utility:chevronleft" size="small" alternative-text="Previous" title="Previous"></lightning-icon>
+                   
+                 </button>
+                 </li>
+            <li class="monthLabel"> {monthName} {year}</li>
+            <li class="right"> 
+                <button class="slds-button" onclick={next}> 
+                   <lightning-icon icon-name="utility:chevronright" size="small" alternative-text="Next" title="Next"></lightning-icon>
+                 </button>    
+            </li>
+        </ul>
+
+        <div if:false={isLoaded} class="slds-is-relative">
+            <lightning-spinner
+                alternative-text="Loading..." variant="brand">
+            </lightning-spinner>
+        </div>
+        <br />
+        <div class="calendarTable" if:true={isLoaded}>
+            
+            <table > <!-- class="slds-table slds-table_cell-buffer slds-table_bordered "  -->
+                <thead>
+                    <tr>  
+                        <template for:each={dayNames} for:item="dayName">
+                            <template for:each={dayName.blks} for:item="blk">
+                                <th key={blk.label} style="text-align:center">{blk.label}</th>
+                            </template>
+                        </template>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={dayNumbers} for:item="dayNumber" for:index="index">
+                        <tr key={dayNumber.index}>
+                            <template for:each={dayNumber.blks} for:item="blk">
+                                <td key={blk.label} style="text-align:center" valign="top">{blk.label}
+                                   
+                                    <template if:true={blk.tasks}>
+                                        <div class="box">
+                                            <div class="title">Tasks</div>
+                                            <ul class="items"> 
+                                                <template for:each={blk.tasks} for:item="task">
+                                                <li key={task.Id}>
+                                                    <a key={task.Id} href={task.href} target="_blank">{task.description}</a>
+                                                    </li>    
+                                                </template>  
+                                            </ul>       
+                                        </div> 
+                                    </template>
+
+                                    <template if:true={blk.events}>
+                                        <div class="box">
+                                            <div class="title">Events</div>
+                                            <ul class="items"> 
+                                                <template for:each={blk.events} for:item="evt">
+                                                <li key={evt.Id}>
+                                                    <a key={evt.Id} href={evt.href} target="_blank">{evt.description}</a>
+                                                    </li>    
+                                                </template>  
+                                            </ul>
+                                        </div>
+                                    </template>
+                                </td>
+                            </template>
+                        </tr>
+                    </template> 
+                </tbody>
+            </table>
+        </div> 
+    </lightning-card>
+</template>

@@ -1,0 +1,7 @@
+<apex:page >
+
+      <flow:interview name="Student_Survey" />
+       
+    
+
+    </apex:page>

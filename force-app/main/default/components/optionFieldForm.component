@@ -1,0 +1,10 @@
+<apex:component >
+   <apex:form >
+        <div class="formFeild hideMe slider_question_type radio_question_type"> 
+            <div style="margin-bottom:20px;postition:relative;">
+                <apex:inputText id="options"  styleClass="optionText" />                                    
+                <apex:image url="{!$Resource.DeleteIcon}" styleClass="delete_option" title="Remove"/>                                    
+            </div>
+        </div> 
+    </apex:form>
+</apex:component>

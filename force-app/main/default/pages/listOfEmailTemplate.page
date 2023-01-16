@@ -1,0 +1,97 @@
+<apex:page sidebar="false" showHeader="false" docType="HTML-5.0"  controller="customListOfTemplate" action="{! deleteTemplate}" standardStylesheets="false" applyHtmlTag="true" applyBodyTag="false">
+    <html>
+        <head>
+            <title>Survey Email Template</title>
+            <apex:stylesheet value="{!URLFOR($Resource.SurveyMasterCss, 'master.css') }"/>
+            <!-- for jquery alert box -->
+            <apex:stylesheet value="{!URLFOR($Resource.jqueryConfirmstyles, 'jqueryConfirmstyles/jqueryConfirmstyles.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.jQueryConfirmCss, 'jquery.confirm/jquery.confirm.css')}"/>
+            <!-- for jquery alert box --> 
+            <apex:include pageName="surveyHeaderTags"/>
+        </head>
+        <body>
+            <apex:include pageName="surveyHeader" /> 
+            <c:topPageNavigation myPageTitle="List of templates" /> 
+            <section class="bodyContainer">
+                <div class="container clear">               
+                    <apex:form styleClass="searchForm" id="searchForm" >
+                        <div class="white-box">
+                            <apex:outputPanel id="templateList" layout="block" >
+                                <apex:outputPanel >
+                                    <div Class="formFeild"> 
+                                        <div class="feild">
+                                            <apex:outputPanel styleClass="requiredInput" layout="block">
+                                                <apex:inputText value="{!searchFilter}" styleClass="optionText" />
+                                                <apex:commandButton value="Filter" action="{! search }" styleClass="green-btn" reRender="templateList" />
+                                                <apex:commandButton value="Reset" action="{! Reload }" styleClass="green-btn fitlerLeftSpace" reRender="templateList"/>
+                                                <div class="floatRight clear">
+                                                    <apex:commandButton value="+ Create New" action="/apex/emailTemplate" styleClass="green-btn" style="font-weight: bold;" />
+                                                </div>
+                                            </apex:outputPanel>
+                                        </div>
+                                    </div> 
+                                </apex:outputPanel> 
+                                <apex:pageMessages />
+                                
+                                <apex:dataTable rendered="{!(templates.size >0)}" value="{!templates}" var="temp" styleClass="defaultTable">
+                                    
+                                    <apex:column headerValue="Subject" styleClass="Outputter3" >
+                                        <apex:outputField value="{!temp.title__c}" />
+                                        <apex:variable var="vara" value="{!temp.title__c}" />
+                                    </apex:column>
+                                    <apex:column colspan="1" styleClass="action-links"> <!-- headerValue="Action" headerClass="headerStyle" -->
+                                       <apex:commandLink action="{! selectTemplate }" rerender="templateList" rendered="{!temp.status__c != true}">
+                                            <div class="tooltip"> 
+                                                <apex:param name="selectTemplate" value="{!temp.Id}" assignTo="{! selected }"/>
+                                                <apex:image url="{!URLFOR($Resource.activate) }" />
+                                                <span class="tooltiptext">Activate</span>
+                                            </div>
+                                            &nbsp;&nbsp;
+                                        </apex:commandLink> 
+                                        
+                                        <!-- <apex:outputText rendered="{!temp.status__c != true}">&nbsp;&nbsp;</apex:outputText>
+                                            <apex:commandLink action="{! selectedTemplateDeactivate }" rerender="templateList" rendered="{!temp.Status__c != false}">
+                                                Deactive
+                                                <apex:param name="selectTemplate" value="{!temp.Id}" assignTo="{! selected }"/>
+                                        </apex:commandLink> -->
+                                            
+                                        <div class="tooltip">       
+                                            <apex:outputLink value="/apex/updateTemplate?id={!temp.Id}">
+                                                <apex:image url="{!URLFOR($Resource.editIcon) }" />
+                                            </apex:outputLink>
+                                            <span class="tooltiptext">Edit</span>
+                                        </div>
+                                        &nbsp;&nbsp;
+                                        <div class="tooltip">
+                                            <!-- <apex:commandLink action="{! deleteTemplate}" reRender="templateList" rendered="{!temp.status__c != true}" onclick="if(!confirm('Are you sure to delete the survey?')){return false};">
+                                                    <apex:param name="surveyToDelete" value="{! temp.Id }" assignTo="{! idToDelete }" />
+                                                    <apex:image url="{!URLFOR($Resource.DeleteIcon) }"/>
+                                            </apex:commandLink> -->
+                                            
+                                            <apex:outputLink value="/apex/listOfEmailTemplate?id={!temp.Id}" rendered="{!temp.status__c != true}" 
+                                                             onClick="return returnConfirm(this,'Are you sure to delete the email template?');">
+                                                <apex:image url="{!URLFOR($Resource.DeleteIcon) }"/>
+                                            </apex:outputLink> 
+                                            <span class="tooltiptext">Delete Template</span>
+                                        </div>
+                                    </apex:column>
+                                </apex:dataTable>
+                                <c:globalPageIniation rendered="{!(templates.size >0)}" pagingObject="{!con}" />
+                                <apex:outputText rendered="{!(templates.size ==0)}">
+                                    <div class="clear noRecords">
+                                        There are no templates to display.
+                                    </div>
+                                </apex:outputText>
+                            </apex:outputPanel>
+                        </div>
+                    </apex:form>
+                </div> 
+            </section>
+            <apex:include pageName="surveyFooter"/>
+            <!-- for jquery alert box -->
+            <apex:includeScript value="{!$Resource.jQueryConfirmJs}"/>
+            <apex:includeScript value="{!$Resource.jQueryConfirmscript}"/> 
+            <!-- for jquery alert box -->
+        </body>
+    </html>
+</apex:page>

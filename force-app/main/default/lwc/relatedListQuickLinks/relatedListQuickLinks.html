@@ -1,0 +1,43 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 03-25-2022
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <lightning-card title={Header}>
+           <div class="slds-card__body slds-card__body--inner">
+               <div style={columnView}>
+                <ul class="slds-grid slds-wrap list" style={alphaView} data-id="divblock">
+                <template for:each={countdata} for:item="arr">
+                    <li  class="" key={arr.objectName} style="width: 175px;
+                    padding-bottom: var(--lwc-varSpacingVerticalSmall);
+                    margin-right: var(--lwc-spacingSmall);">
+                        <div class="" style="display: flex; align-items: flex-start">
+                            <lightning-icon size="xx-small" icon-name={arr.icon} title={arr.objectName} class="slds-m-right_x-small"></lightning-icon>
+                            <!--icon-name={arr.icon}-->
+                            <div class="slds-grid">
+                                <a href="javascript:void(0);" class="flex-wrap-ie11" id ={arr.icon} onclick={handleclick} title={arr.objectLabel} name={arr.objectName} onmouseover={handleMouseOver} onmouseout={handleMouseOut}>
+                                    <span style="border-bottom: var(--lwc-borderWidthThin, 1px) dotted;display: inline;">{arr.objectLabel} ({arr.objCount})</span>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                </template>
+                </ul>
+            </div> 
+           </div>
+        <template if:true={showMorevar}>
+            <div class="slds-text-align_center">
+                <a href="javascript:void(0)" name={buttonLabel} onclick={handleView}>{buttonLabel}{showLen}<span class="slds-assistive-text"></span></a>
+            </div>
+        </template>
+        
+    </lightning-card>
+    <div  style="display:none; position:absolute !important; opacity:0; left: 0;" class="ModelTooltip"  ><!--style="display:none;position: absolute;opacity:0" --><!--slds-popover slds-popover_tooltip slds-nubbin_top-left       class="tooltipClass tooltipOver"-->
+        <template if:true={showDatatable}>                  
+            <c-related-data-table record-id={recordId} child-object-label={childObjectLabel} child-object-name={hoverObj} parentobjname={parentobjname} icon={icon} childobjarray={childobjwithrelationname} onshowtable={handleshowtable}></c-related-data-table>
+        </template>
+        </div>
+</template>

@@ -1,0 +1,265 @@
+<apex:page id="thePage" showHeader="false" docType="HTML-5.0"  sidebar="false" action="{!loadSurvey}" standardStylesheets="false" controller="surveyQuestions" extensions="questionBank,surveyConfigs">   
+    <html>
+        <head>
+            <title>Create question for survey</title>
+            <apex:include pageName="surveyHeaderTags" />
+            <apex:includeScript value="{!$Resource.question}"/>
+            
+            <!-- for jquery alert box -->
+            <apex:stylesheet value="{!URLFOR($Resource.jqueryConfirmstyles, 'jqueryConfirmstyles/jqueryConfirmstyles.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.jQueryConfirmCss, 'jquery.confirm/jquery.confirm.css')}"/>
+            <!-- for jquery alert box -->    
+        </head>
+        <body>
+            <apex:include pageName="surveyHeader" /> 
+            <c:topPageNavigation myPageTitle="Create question for survey" /> 
+            <section class="bodyContainer">
+                <div class="container clear">
+                    <div class="white-box"> 
+                        <div class="floatRight clear">
+                            <apex:outputLink value="{!$Page.SurveyList}"  styleClass="green-btn">
+                                Go to Manage Survey
+                            </apex:outputLink>
+                            <apex:outputLink value="{! $page.previewSurvey }" target="_blank" styleClass="green-btn fitlerLeftSpace">
+                                View Preview
+                                <apex:param name="surveyId" value="{! surveyDetails.Id }" />
+                            </apex:outputLink>
+                        </div>
+                        
+                        <c:surveyTabs surveyId="{!surveyDetails.Id}" />
+                        
+                        <div class="sectionTitle"> Manage Questions</div>
+                        <div class="clear">&nbsp;</div>
+                        
+                        <apex:outputPanel id="sucessMessage"> 
+                            <apex:form styleClass="mainForm" id="theForm"> 
+                                <div Class="formFeild"> 
+                                    <label>&nbsp;</label>
+                                    <div class="feild">
+                                        <apex:commandLink action="{! selectCreateNewQuestion}" styleClass="add_more_button" status="loadingOptions" reRender="manageSelectedOption"  >
+                                            Create New Question
+                                        </apex:commandLink>
+                                        &nbsp;| &nbsp;
+                                        <apex:commandLink action="{! selectQuestionFromLibrary}" styleClass="add_more_button" status="loadingOptions"  reRender="manageSelectedOption" >
+                                            Select Question from library
+                                        </apex:commandLink>
+                                    </div>
+                                </div>
+                                
+                                <div Class="formFeild">
+                                                     
+                                   
+                                    
+                                    <apex:outputPanel id="manageSelectedOption" styleClass="surveyFullWidth">
+                                        
+                                        <apex:actionStatus id="loadingOptions">
+                                            <apex:facet name="start">                                                              
+                                                <apex:image url="{!$Resource.loading}" title=" Please wait .."/>
+                                            </apex:facet>
+                                            <apex:facet name="stop">
+                                                <apex:outputPanel >
+                                                    
+                                                   <apex:pageMessages />
+                                                                 
+                                                   
+                                                   
+                                                    <apex:outputPanel rendered="{! isDefaultList  }" id="questionOfSurvey" styleClass="requiredInput" layout="block" >   
+                                                        <apex:outputText >                                         
+                                                            <div class="sectionTitle"> Questions allocated to survey</div>                                        
+                                                        </apex:outputText>                                        
+                                                        <apex:dataTable value="{!ListOfSurveyQuestions}" var="s" rendered="{!(ListOfSurveyQuestions.size > 0)}" styleClass="defaultTable">
+                                                             <apex:column headerValue="Question" styleClass="Outputter3" >
+                                                                <apex:outputField value="{!s.Question__c}" />
+                                                                <apex:variable var="vara" value="{!s.Question__c}" />
+                                                            </apex:column>
+                                                            
+                                                             <apex:column headerValue="Action" colspan="1" styleClass="action-links">
+                                                                
+                                                                <apex:outputText rendered="{! s.Id != firstQuestionId}">&nbsp;&nbsp;</apex:outputText> 
+                                                                <div class="tooltip">
+                                                                    <apex:commandLink rendered="{! s.Id != firstQuestionId}" action="{!moveUp}"
+                                                                                      reRender="questionOfSurvey">
+                                                                        <apex:image url="{!$Resource.upArrow}" /> 
+                                                                        <apex:param name="surveyId" value="{!surveyDetails.Id}"/>
+                                                                        <apex:param name="questionId" value="{!s.Id}"/>
+                                                                        <span class="tooltiptext tooltipSmall" >Move up</span>
+                                                                    </apex:commandLink>
+                                                                </div>
+                                                                <apex:outputText rendered="{! s.Id != firstQuestionId}">&nbsp;&nbsp;</apex:outputText> 
+                                                                
+                                                                <apex:outputText rendered="{! s.Id != lastQuestionId}">&nbsp;&nbsp;</apex:outputText>
+                                                                <div class="tooltip">
+                                                                    <apex:commandLink rendered="{! s.Id != lastQuestionId}" action="{!moveDown}" reRender="questionOfSurvey">
+                                                                        <apex:image url="{!$Resource.downArrow}" /> 
+                                                                        <apex:param name="surveyId" value="{!surveyDetails.Id}"/>
+                                                                        <apex:param name="questionId" value="{!s.Id}"/>
+                                                                        <span class="tooltiptext tooltipSmall"  >Move Down</span>
+                                                                    </apex:commandLink>
+                                                                </div>
+                                                                <apex:outputText rendered="{! s.Id != lastQuestionId}">&nbsp;&nbsp;</apex:outputText>
+                                                                
+                                                                 <div class="tooltip"> 
+                                                                  <apex:outputLink value="{!$Page.createSurveyQuestions}" onClick="return returnConfirm(this,'Are you sure to remove this question from the survey?');">
+                                                                      <apex:image url="{!$Resource.DeleteIcon}" /> 
+                                                                      <apex:param name="surveyId" value="{!surveyDetails.Id}"/>
+                                                                      <apex:param name="qId" value="{!s.Id}"/>
+                                                                      <span class="tooltiptext tooltipSmall" >Delete</span>
+                                                                  </apex:outputLink>
+                                                                   </div>
+                                                                   <div class="tooltip">
+                                                                      <apex:outputLink value="{!$Page.editQuestion}" target="_blank">
+                                                                          <apex:image url="{!$Resource.editIcon}" />                                          
+                                                                          <apex:param name="id" value="{!s.Id}"/>
+                                                                          <span class="tooltiptext tooltipSmall" >Edit Question</span>
+                                                                      </apex:outputLink>
+                                                                  </div>
+                                                             </apex:column>
+                                                        </apex:dataTable> 
+                                                        
+                                                        <br />
+                                                        <apex:commandButton rendered="{!(ListOfSurveyQuestions.size >  0)}" value="Go To Manage Recipients" action="{! gotoManageReceipients }" styleClass="green-btn"   />
+                                                        
+                                                         <apex:outputText rendered="{!(ListOfSurveyQuestions.size == 0)}">
+                                                            <div class="clear noRecords">
+                                                                No questions are assigned to this survey.
+                                                            </div>
+                                                        </apex:outputText>                                       
+                                                    </apex:outputPanel>
+                                                   
+                                                     
+                                                    
+                                                    <apex:outputPanel rendered="{! isQuestionFromLibrary  }">
+                                                        
+                                                        <div class="sectionTitle">
+                                                            Question Library
+                                                        </div> 
+                                                        <apex:outputPanel id="questionList" layout="block" > 
+                                                            <div Class="formFeild"> 
+                                                                <div class="feild">
+                                                                    <apex:outputPanel styleClass="requiredInput" layout="block" rendered="{!QuestionLibrary.size>0}">
+                                                                        <apex:inputText value="{!questionSearchFilter }" styleClass="optionText" />
+                                                                        <apex:commandButton value="Filter" action="{! searchSurveyQuestion }" styleClass="green-btn" reRender="questionList" />
+                                                                    </apex:outputPanel>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <apex:dataTable columnsWidth="5%,95%" value="{!QuestionLibrary}" rendered="{!canUseLibrary}"  id="lib" var="lib"   styleClass="defaultTable surveyFullWidth">
+                                                                <apex:column >
+                                                                    <apex:inputCheckbox value="{!lib.checked}"/>
+                                                                </apex:column>
+                                                                <apex:column value="{!lib.question.Question__c}" headerValue="Question"  /> 
+                                                            </apex:dataTable>
+                                                            
+                                                            
+                                                            <apex:outputText rendered="{! (canUseLibrary == false)}">
+                                                                    <div class="clear noRecords">
+                                                                        No library questions to display.
+                                                                    </div>
+                                                            </apex:outputText>
+                                                            <br /> 
+                                                        </apex:outputPanel>  
+                                                        
+                                                        
+                                                        <div class="formFeild"> 
+                                                            <label>&nbsp;</label>
+                                                            <div class="feild" style="width:auto; !important;">                                     
+                                                                <apex:commandButton value="Assign questionnaire" action="{! processQuestionLibrary }" styleClass="green-btn" reRender="sucessMessage"  status="loadingOptions" />
+                                                                &nbsp;
+                                                                <apex:commandButton value="Go To Manage Recipients" action="{! gotoManageReceipients }" styleClass="green-btn"   />
+                                                                &nbsp;
+                                                                <apex:commandLink action="{! initDefaultList}" styleClass="green-btn"  status="loadingOptions"  reRender="manageSelectedOption" >
+                                                                    Back to Survey question List
+                                                                </apex:commandLink>   
+                                                            </div>
+                                                        </div> 
+                                                    </apex:outputPanel>
+                                                    
+                                                    
+                                                    <apex:outputPanel rendered="{! isCreateNewOption  }">
+                                                        <div class="sectionTitle">
+                                                            Create new question
+                                                        </div> 
+                                                        
+                                                        <div Class="formFeild"> 
+                                                            <label>Question</label>
+                                                            <div class="feild">
+                                                                <apex:inputText value="{!question}" id="theFieldInput"  html-placeholder="Enter Question"  />
+                                                                <apex:message for="theFieldInput"/>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div Class="formFeild"> 
+                                                            <label>Status</label>
+                                                            <div class="feild"> 
+                                                                <apex:inputCheckbox value="{!questionStatus}" /> 
+                                                            </div>
+                                                        </div> 
+                                                        
+                                                        <div Class="formFeild"> 
+                                                            <label>Type Of Question</label>
+                                                            <div class="feild">  
+                                                                <apex:selectRadio styleClass="typeQuestions" value="{!questionType}">
+                                                                    <apex:selectOptions value="{!questionTypes}" />
+                                                                </apex:selectRadio>  
+                                                            </div>
+                                                        </div> 
+                                                        
+                                                        <div Class="formFeild add_more_label radio_add_more_label slider_add_more_label hideMe"> 
+                                                            <label>&nbsp;</label>
+                                                            <div class="feild">                                                 
+                                                                <p class="add_more_button">Add More Options </p>
+                                                            </div>
+                                                        </div> 
+                                                        
+                                                        <div Class="formFeild  hideMe"> 
+                                                            <label>&nbsp;</label>
+                                                            <div class="feild optionContainer options"></div>
+                                                        </div>  
+                                                        
+                                                        <apex:inputHidden value="{!selectedOptions}" id="selectedOptions"/>
+                                                        
+                                                        <script type="text/javascript" language="javascript"> 
+                                                        currentOption = ''; 
+                                                         initActions();
+                                                        </script>  
+                                                        
+                                                        <div class="formFeild"> 
+                                                            <label>&nbsp;</label>
+                                                            <div class="feild"  style="width:auto; !important;">
+                                                                <apex:commandButton value="Create Question" action="{! createSurveyQuestionnaire}" styleClass="green-btn"  status="loadingOptions" reRender="sucessMessage" onClick="storeValue('{!$Component.selectedOptions}')" />
+                                                                &nbsp;
+                                                                <apex:commandButton value="Go To Manage Recipients" action="{! gotoManageReceipients}" styleClass="green-btn"   />
+                                                                 &nbsp;
+                                                                <apex:commandLink action="{! initDefaultList}" styleClass="green-btn" status="loadingOptions"  reRender="manageSelectedOption" >
+                                                                    Back to Survey question List
+                                                                </apex:commandLink>   
+                                                            </div>
+                                                        </div> 
+                                                    </apex:outputPanel> 
+                                                </apex:outputPanel> 
+                                            </apex:facet> 
+                                        </apex:actionStatus>  
+                                    </apex:outputPanel> 
+                                </div>
+                            </apex:form> 
+                            <apex:form >
+                                <div class="formFeild hideMe slider_question_type radio_question_type"> 
+                                    <div class="formBottomFields">
+                                        <apex:inputText value="{!options}" id="options"  styleClass="questionOptionText" />                                    
+                                        <apex:image url="{!$Resource.DeleteIcon}" styleClass="delete_option" title="Remove"/>                                    
+                                    </div>
+                                </div> 
+                            </apex:form> 
+                        </apex:outputPanel> 
+                    </div> 
+                </div> 
+            </section>  
+            <apex:include pageName="surveyFooter" />
+            
+            <!-- for jquery alert box -->
+            <apex:includeScript value="{!$Resource.jQueryConfirmJs}"/>
+            <apex:includeScript value="{!$Resource.jQueryConfirmscript}"/> 
+            <!-- for jquery alert box --> 
+        </body>
+    </html>
+</apex:page>

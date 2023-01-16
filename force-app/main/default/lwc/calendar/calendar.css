@@ -1,0 +1,81 @@
+.calControls {
+    padding:0;
+    margin:0;
+    width:100%;
+    padding:0 2% 3% 2%;
+}
+
+.calControls li {
+    float:left;
+    list-style:none;
+}
+
+.calControls li.left,.calControls li.right  {
+    width:5%; 
+    cursor:pointer;       
+}
+
+.calControls li.left {
+    float : left;
+}
+
+.calControls li.monthLabel {
+    width:86%;
+    text-align:center;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.calControls li.right {     
+    float : right;
+}
+
+.items {
+    padding:0;
+    margin:0;
+}
+
+.items li {
+    list-style:none;
+    line-height:25px;
+    text-align: left;
+}
+
+.items li a {
+    text-decoration:none;
+}
+
+.calendarTable table tbody tr td{
+    vertical-align: top;    
+}
+
+.box {
+    margin:5px 0 0 0;
+    height:100px;
+    overflow-y: auto;
+}
+
+.box .title {
+    font-weight:bold;
+    border-bottom:1px solid #ccc;
+    text-align: left;
+}
+
+.calendarTable table thead tr td .box:first-child {
+    margin:0px;
+}
+
+.calendarTable {
+    padding:2%;
+
+}
+
+.calendarTable table {
+    border-collapse: collapse;
+    width:100%;
+}
+
+.calendarTable table tbody tr td, .calendarTable table thead tr th {
+   border:1px solid #ccc;
+   padding:5px;
+}

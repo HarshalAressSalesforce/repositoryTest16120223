@@ -1,0 +1,69 @@
+.chatbox {
+    width:40%;
+    float:right;
+    background:#fff;
+    border:1px solid #ccc;
+    border-radius:6px;
+    padding:1%;    
+}
+
+.chatbox .messageList {
+    height:300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+     
+    
+}
+
+ 
+
+.chatbox .title {
+    line-height: 35px;
+    border-bottom:2px solid #ccc;
+    font-weight:bold;
+    font-size:14px;
+    margin:0 0 1% 0;
+ }
+ 
+ .chatbox .messageList .chatLine {
+    width:100%;
+    padding:0;     
+    clear:both;
+    margin:1% 0 1% 0;
+    border-bottom:1px solid #ccc;
+ }
+ 
+
+.chatbox .messageList .chatLine .avtar {     
+    float:left;
+    display:inline-block;
+    vertical-align:top;
+}
+
+.chatbox .messageList .chatLine .ownMessage, .chatbox .messageList .chatLine .otherMessage {
+    width:100%;    
+    margin-left:6%;     
+    vertical-align:top;     
+}
+
+.chatbox .messageList .chatLine .ownMessage .messageBox,.chatbox .messageList .chatLine .otherMessage .messageBox{    
+    padding:0 0 1% 1%;
+    border-radius:4px; 
+}
+
+.chatbox .messageList .chatLine .otherMessage .messageBox .sender{
+    font-weight:bold;
+}
+
+.chatbox .sendButton .but {
+     float:right;
+     margin:1% 0 0 0;      
+}
+
+.chatbox .sendButton input{
+    display:block;
+    width:100%;
+    padding:0 0 1% 0;
+    border:none;
+    border-bottom:2px solid #000;
+}

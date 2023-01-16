@@ -1,0 +1,14 @@
+<apex:component controller="surveyQuestions" > 
+    
+   <apex:attribute name="questionId" description="questionId" type="Id" required="required" assignTo="{!reportQuestionId}"/>
+   <apex:attribute name="surveyId"  description="surveyId"  type="Id" required="required" assignTo="{!surveyQuestionId}"/>
+    
+   <div id="question_{!questionId}"></div>   
+   
+   <apex:chart height="350" width="450" data="{!pieData}" renderTo="question_{!questionId}">
+        <apex:pieSeries dataField="data" labelField="name"/>
+        <apex:legend position="right"/>
+   </apex:chart>
+   
+    
+</apex:component>

@@ -1,0 +1,4 @@
+<aura:component >
+	 <h1 style="font-size:18px">Camping List</h1>
+    <c:campingList />
+</aura:component>

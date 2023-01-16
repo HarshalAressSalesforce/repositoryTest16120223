@@ -1,0 +1,6 @@
+<apex:page sidebar="false" standardController="Opportunity">
+    
+    This is the opportunity page
+    
+     
+</apex:page>

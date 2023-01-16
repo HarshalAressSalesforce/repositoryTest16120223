@@ -1,0 +1,58 @@
+<apex:page sidebar="false" showHeader="false" docType="HTML-5.0" controller="emailSave"  action="{!loadEmail}" standardStylesheets="false" applyHtmlTag="true" applyBodyTag="false">
+    <html>
+        <head>
+            <title>Survey Email Template</title>
+            <apex:include pageName="surveyHeaderTags" />
+        </head>
+        <body>
+            
+            <apex:include pageName="surveyHeader" /> 
+            <c:topPageNavigation myPageTitle="Update Template" /> 
+            
+            <section class="bodyContainer">
+                <div class="container clearfix">
+                    <div class="white-box">
+                        <div class="floatRight clear">
+                            <apex:outputLink value="{!$Page.listOfEmailTemplate}"  styleClass="green-btn">
+                                Go to Email Template
+                            </apex:outputLink>
+                        </div>
+                    <apex:form styleClass="mainForm clear">
+                                
+                                <div class="formFeild" id="formFeild1">
+                                <label> Subject</label>
+                                <div class="feild">
+                                    <apex:outputPanel styleClass="requiredInput" id="nameInsert" layout="block">
+                                        <apex:inputText value="{!nameUpdate}" />
+                                        
+                                    </apex:outputPanel>
+                                </div>
+                            </div>
+                              
+                                <div class="formFeild" id="formFeild2">
+                                <label> Body </label>
+                                <div class="feild">
+                                    <apex:outputPanel styleClass="requiredInput" id="descriptionInsert" layout="block">
+                                      <apex:inputTextarea styleClass="ckeditor" richtext="true" value="{!descriptionUpdate}" />
+                                        
+                                    </apex:outputPanel>
+                                    
+                                    <div class="spnEmailNote">Note: Make use of {URL} as a placeholder for Survey URL</div>
+                                </div>
+                            </div>
+                                
+                                <div class="formFeild">
+                                <label>&nbsp;</label>
+                                <div class="feild">
+                                    <apex:commandButton action="{!emailUpdate}" value="Update" styleClass="green-btn"/>
+                                </div>
+                            </div>
+                                
+                            </apex:form>
+                    </div>
+                </div>
+            </section>
+            <apex:include pageName="surveyFooter"/>
+        </body>
+    </html>
+</apex:page>

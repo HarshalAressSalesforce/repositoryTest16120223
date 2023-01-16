@@ -1,0 +1,12 @@
+<apex:component >
+    <!-- Attribute Definitions -->
+    <apex:attribute name="myPageTitle" description="Provide the page name" type="String" required="true"/>
+   
+
+    <!-- Component Definition -->
+    <section class="page-name">
+        <div class="container clear">
+            <h2> <apex:outputText value="{!myPageTitle}"/></h2>
+        </div>
+    </section> 
+</apex:component>

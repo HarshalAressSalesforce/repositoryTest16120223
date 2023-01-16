@@ -1,0 +1,162 @@
+<apex:page id="thePage" showHeader="false" docType="HTML-5.0" sidebar="false" standardStylesheets="false" action="{!loadSurvey}" controller="surveyQuestions" extensions="questionBank,surveyConfigs">   
+    <html>
+        <head>
+            <title>Preview Survey: {! surveyDetails.Name}</title>
+            <apex:include pageName="surveyHeaderTags" />
+            <apex:includeScript value="{!$Resource.question}"/>            
+            <apex:stylesheet value="{! URLFOR($Resource.IronRageSlider, 'ionRangeSliderDemo/css/normalize.css') }"/>
+            <apex:stylesheet value="{! URLFOR($Resource.IronRageSlider, 'ionRangeSliderDemo/css/ion.rangeSlider.css') }"/>
+            <apex:stylesheet value="{! URLFOR($Resource.IronRageSlider, 'ionRangeSliderDemo/css/ion.rangeSlider.skinFlat.css') }"/>
+            
+            <!-- for jquery alert box -->
+            <apex:stylesheet value="{!URLFOR($Resource.jqueryConfirmstyles, 'jqueryConfirmstyles/jqueryConfirmstyles.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.jQueryConfirmCss, 'jquery.confirm/jquery.confirm.css')}"/>
+            <!-- for jquery alert box -->      
+        </head>
+        <body>
+            <apex:include pageName="surveyHeader" /> 
+            <c:topPageNavigation myPageTitle="Preview Survey: {!surveyDetails.Name}" /> 
+            <section class="bodyContainer" >
+                <div class="container clear">
+                    <div class="content-box questionBoxSeparator"> 
+                         <div class="floatRight clear">
+                            <apex:outputLink value="{!$Page.SurveyList}"  styleClass="green-btn">
+                                Go to Manage Survey
+                            </apex:outputLink>
+                        </div>
+                        
+                        <div class="clear">
+                            <c:surveySection surveyDetails="{!surveyDetails}" />  
+                         </div>
+                    
+                    </div>
+                    
+                    
+                        
+                        <apex:outputPanel id="sucessMessage"  > 
+                           <div class="white-box questionBoxSeparator questionTopSpacing"> 
+                           <p class="introLine"> Please provide your feedback by answering the below questions. </p>
+                            
+                            <apex:pageMessages rendered="{! surveySubmitted==false }" />
+                            <apex:pageMessages rendered="{!surveySubmitted}" />
+                            
+                             <apex:actionStatus id="showPreviewProgress">
+                                    <apex:facet name="start">                                                              
+                                        <apex:image url="{!$Resource.loading}" title=" Please wait .."/>
+                                    </apex:facet>
+                                    <apex:facet name="stop">
+                            <apex:pageMessages id="message" />
+                            <apex:form rendered="{!IF(surveySubmitted == false,true,false)}" styleClass="mainForm" id="theForm">  
+                                
+                                <apex:repeat value="{!questionList}" var="question" id="questionContainer"> 
+                                     <div class="questionBox">
+                                      
+                                          {!questionList[question].question.Question__c} 
+                                          <div class="floatRight">
+                                             <div class="questionOptionSpacing">
+                                                <div class="tooltip"> 
+                                                    <apex:commandLink rendered="{! questionList[question].question.id != firstQuestionId}" action="{!moveUp}"
+                                                                      reRender="sucessMessage">
+                                                        <apex:image url="{!$Resource.upArrow}" /> 
+                                                        <apex:param name="surveyId" value="{!surveyDetails.Id}"/>
+                                                        <apex:param name="questionId" value="{!questionList[question].question.id}"/>
+                                                        <span class="tooltiptext tooltipSmall" >Move up</span>
+                                                    </apex:commandLink>
+                                                </div>
+                                                <div class="tooltip">
+                                                    <apex:commandLink rendered="{! questionList[question].question.id != lastQuestionId}" action="{!moveDown}">
+                                                        <apex:image url="{!$Resource.downArrow}" /> 
+                                                        <apex:param name="surveyId" value="{!surveyDetails.Id}"/>
+                                                        <apex:param name="questionId" value="{!questionList[question].question.id}"/>
+                                                        <span class="tooltiptext tooltipSmall"  >Move Down</span>
+                                                    </apex:commandLink>
+                                                </div>
+                                            </div>
+                                              
+                                              <div class="tooltip"> 
+                                              <apex:outputLink value="{!$Page.previewSurvey}" onClick="return returnConfirm(this,'Are you sure to remove this question from the survey?');">
+                                                  <apex:image url="{!$Resource.DeleteIcon}" /> 
+                                                  <apex:param name="surveyId" value="{!surveyDetails.Id}"/>
+                                                  <apex:param name="questionId" value="{!questionList[question].question.Id}"/>
+                                                  <span class="tooltiptext tooltipSmall" >Delete</span>
+                                              </apex:outputLink>
+                                               </div>
+                                               <div class="tooltip">
+                                                  <apex:outputLink value="{!$Page.editQuestion}" target="_blank">
+                                                      <apex:image url="{!$Resource.editIcon}" />                                          
+                                                      <apex:param name="id" value="{!questionList[question].question.Id}"/>
+                                                      <span class="tooltiptext tooltipSmall" >Edit Question</span>
+                                                  </apex:outputLink>
+                                              </div>
+                                          </div>
+                                     </div>
+                                      
+                                     <apex:outputPanel styleClass="questionsPreview" rendered="{! IF(questionList[question].question.typeOfQuestion__c == 'radio',true,false)}" >
+                                             <apex:selectRadio value="{!questionList[question].value}" >
+                                                 <apex:selectOptions value="{!surveyQuestionListOptions[questionList[question].question.Id]}"/>                                                  
+                                             </apex:selectRadio> 
+                                     </apex:outputPanel> 
+                                         
+                                     <apex:outputPanel rendered="{! IF(questionList[question].question.typeOfQuestion__c == 'slider',true,false)}" >
+                                           <apex:input value="{!questionList[question].value}" styleClass="range_{!questionList[question].question.Id}" />
+                                           
+                                            <script type="text/javascript"> 
+                                                 var sliderOptions = [];
+                                                 <apex:repeat value="{!surveyQuestionOptions[questionList[question].question.Id]}" var="option" > 
+                                                      sliderOptions.push('{!option}'); 
+                                                 </apex:repeat> 
+                                                  //$(function () {
+                                                      
+                                                      $(".range_{!questionList[question].question.Id}").ionRangeSlider({
+                                                           hide_min_max: false,
+                                                           keyboard: true,                                                       
+                                                           type: 'single', 
+                                                           grid: true,
+                                                           from:'{!questionList[question].value}',
+                                                           values:sliderOptions 
+                                                      }); 
+                                                      
+                                                      $(".range_{!questionList[question].question.Id}").on("change", function () {
+                                                            var $this = $(this),
+                                                                value = $this.prop("value");
+                                                            $this.val(value ); 
+                                                      });
+                                                 // });
+                                              </script>  
+                                         </apex:outputPanel> 
+                                         
+                                          <apex:outputPanel rendered="{! IF(questionList[question].question.typeOfQuestion__c == 'free_text',true,false)}" >
+                                                 <apex:inputTextarea value="{!questionList[question].value}" rows="5" styleClass="surveyFullWidth" /><p/>
+                                          </apex:outputPanel>  
+                                          <hr />
+                                </apex:repeat>
+                                
+                                <div class="formFeild"> 
+                                        <label>&nbsp;</label>
+                                        <div class="feild">                                     
+                                            <apex:commandButton status="showPreviewProgress" rendered="{! surveyHasQuestions}" reRender="sucessMessage" value="Save" action="{!saveFeedback}" styleClass="green-btn" />
+                                        </div>
+                                    </div>  
+                                    
+                            </apex:form> 
+                            
+                             </apex:facet>
+                                </apex:actionStatus> 
+                                </div>   
+                        </apex:outputPanel> 
+                        
+                </div>    
+            </section> 
+            
+            <apex:includeScript value="{!URLFOR($Resource.IronRageSlider, 'ionRangeSliderDemo/js/jquery-1.12.3.min.js') }"/>
+            <apex:includeScript value="{!URLFOR($Resource.IronRageSlider, 'ionRangeSliderDemo/js/ion.rangeSlider.js') }"/>
+            
+             <!-- for jquery alert box -->
+            <apex:includeScript value="{!$Resource.jQueryConfirmJs}"/>
+            <apex:includeScript value="{!$Resource.jQueryConfirmscript}"/> 
+            <!-- for jquery alert box -->
+     
+            <apex:include pageName="surveyFooter" /> 
+        </body>
+    </html>
+</apex:page>

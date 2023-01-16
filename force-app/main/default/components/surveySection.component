@@ -1,0 +1,17 @@
+<apex:component >
+  <apex:attribute name="surveyDetails" description="surveyId" type="Survey__c" required="required" />
+   <div class="sectionTitle">{!surveyDetails.Name}
+        <div class="floatRight">
+            <apex:outputText rendered="{! surveyDetails.sentDate__c != null }" value="{0,date, dd MMMM',' yyyy}">
+               Sent on <apex:param value="{!surveyDetails.sentDate__c}" />
+            </apex:outputText>&nbsp;&nbsp;
+            <apex:outputLink rendered="{! surveyDetails.sentDate__c != null }" value="{!$Page.sendSurvey}?surveyId={!surveyDetails.Id}">
+                <div class="tooltip">
+                    <apex:image Url="{!$Resource.AddRecipientIcon}"/>
+                    <span class="tooltiptext">View Recipient Details</span>
+                </div>
+            </apex:outputLink>
+        </div> 
+    </div> 
+    <p>{!surveyDetails.Description__c}</p>
+</apex:component>

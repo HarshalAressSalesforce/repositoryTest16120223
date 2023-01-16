@@ -1,0 +1,82 @@
+<apex:page showHeader="false"    docType="HTML-5.0"  sidebar="false" standardStylesheets="false" controller="questionBank" action="{!deleteQuestion}">   
+    <html>
+        <head>
+            <title>Manage Survey Questions</title>
+            <apex:include pageName="surveyHeaderTags" />
+            <!-- for jquery alert box -->
+            <apex:stylesheet value="{!URLFOR($Resource.jqueryConfirmstyles, 'jqueryConfirmstyles/jqueryConfirmstyles.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.jQueryConfirmCss, 'jquery.confirm/jquery.confirm.css')}"/>
+            <!-- for jquery alert box -->
+            
+        </head>
+        <body>
+            <apex:include pageName="surveyHeader" /> 
+            <c:topPageNavigation myPageTitle="Manage Questions" />  
+            <section class="bodyContainer"> 
+                <div class="container clear">                    
+                    <apex:form styleClass="searchForm" id="searchForm"> 
+                        <div class="white-box">
+                            <apex:outputPanel styleClass="clear">
+                                <div class="floatRight clear">
+                                    <apex:commandButton value="+ Create New" action="{! createQuestion }"  styleClass="green-btn" style="font-weight: bold;" />
+                                </div>
+    
+                                <div Class="formFeild"> 
+                                    <div class="feild">
+                                        <apex:outputPanel styleClass="requiredInput" layout="block">
+                                            <apex:inputText html-placeholder="Question" value="{!searchFilter}" styleClass="optionText" />
+                                            <apex:commandButton value="Filter" action="{! search }" styleClass="green-btn" reRender="questionList" />
+                                            <apex:commandButton value="Reset" action="{! Reload }" styleClass="green-btn fitlerLeftSpace" reRender="opPnlRerender"/>
+                                        </apex:outputPanel>
+                                    </div>
+                                </div>
+                            </apex:outputPanel>
+                            <apex:pageMessages />
+                            <apex:outputPanel id="questionList" layout="block">
+                                <apex:outputPanel id="opPnlRerender">
+                                    <apex:dataTable rendered="{!(questions.size >0)}" value="{!questions}" id="qst" var="qst" styleClass="defaultTable">
+                                        <apex:column value="{!qst.Question__c}" headerValue="Question"/>
+                                        <apex:column styleClass="action-links"> <!-- headerValue="Action" --> 
+                                            <div class="tooltip"> 
+                                                <apex:outputLink value="{!$Page.editQuestion}">
+                                                    <apex:image url="{!$Resource.editIcon}"/> 
+                                                    <apex:param name="id" value="{!qst.Id}"/>
+                                                    <span class="tooltiptext">Edit</span>
+                                                </apex:outputLink> 
+                                            </div>
+                                            &nbsp;&nbsp;
+                                            <div class="tooltip">
+                                                <!-- rerender="opPnlRerender" -->
+                                                <apex:outputLink value="/apex/manageQuestions?questionId={!qst.Id}" onClick="return returnConfirm(this,'Are you sure to delete question?');" >
+                                                    <apex:image url="{!$Resource.DeleteIcon}"/>
+                                                    <span class="tooltiptext">Remove</span>
+                                                </apex:outputLink>
+                                                <!-- returnConfirm for jquery alert box -->
+                                            </div>
+                                        </apex:column>
+                                    </apex:dataTable>
+                                    <c:globalPageIniation pagingObject="{!con}" />
+                                    <apex:outputText rendered="{!(questions.size = 0)}">
+                                        <div class="clear noRecords">
+                                            There are no questions to display.
+                                        </div>
+                                    </apex:outputText>
+                                    
+                                    
+                                    
+                                </apex:outputPanel>
+                            </apex:outputPanel>
+                        </div> 
+                    </apex:form>   
+                </div> 
+            </section>  
+            <apex:include pageName="surveyFooter" />
+            
+            <!-- for jquery alert box -->
+            <apex:includeScript value="{!$Resource.jQueryConfirmJs}"/>
+            <apex:includeScript value="{!$Resource.jQueryConfirmscript}"/> 
+            <!-- for jquery alert box -->
+            
+        </body>
+    </html>
+</apex:page>

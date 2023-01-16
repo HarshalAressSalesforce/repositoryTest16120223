@@ -1,0 +1,37 @@
+<apex:page > 
+    <header class="mainHeader"> 
+        <div class="container clear"> 
+            <apex:outputLink value="{!$Site.Prefix}" styleClass="logo"><img src="{!$Resource.surveyLogo}" title="{!$Site.Name}"/></apex:outputLink>
+            
+            
+            <div class="nav">
+                <ul> 
+                    <li class="{!IF($CurrentPage.Name == 'surveyDashboard', 'active', '')}">
+                        <apex:outputLink value="{!$Site.Prefix}{!$Page.surveyDashboard}">
+                            Home
+                        </apex:outputLink> 
+                    </li>
+                     
+                    
+                    <li class="{!IF($CurrentPage.Name == 'manageQuestions', 'active', '')}">
+                        <apex:outputLink value="{!$Site.Prefix}{!$Page.manageQuestions}" styleClass="logout">
+                            Manage Questions
+                        </apex:outputLink> 
+                    </li>
+                    
+                    <li class="{!IF($CurrentPage.Name == 'SurveyList', 'active', '')}"><apex:outputLink value="{!$Site.Prefix}{!$Page.SurveyList}">Manage Survey</apex:outputLink></li>
+                   <!-- <li><apex:outputLink value="#" styleClass="logout">Send Survey</apex:outputLink></li> -->
+                   <!--<li class="{!IF($CurrentPage.Name == 'feedBacks', 'active', '')}"><apex:outputLink value="{!$Site.Prefix}{!$Page.feedBacks}" >View Feedbacks</apex:outputLink></li> -->
+                    <!-- <li><apex:outputLink value="#" styleClass="logout">Reports</apex:outputLink></li> -->
+                    <li class="{!IF($CurrentPage.Name == 'listofemailtemplate', 'active', '')}"><apex:outputLink value="{!$Site.Prefix}{!$Page.listOfEmailTemplate}" >Manage Email Templates</apex:outputLink></li>
+                    <li><apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp" styleClass="logout">{!$Label.site.logout}</apex:outputLink> </li>
+                </ul>
+            </div> 
+            
+            
+            
+             
+           
+        </div> 
+    </header> 
+</apex:page>

@@ -1,0 +1,31 @@
+<apex:page showHeader="false" sidebar="false" controller="emailController" standardStylesheets="true" docType="html-5.0">
+    
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          
+    </head>
+    
+    <body>
+        <!-- To allow Salesforce to display error messages -->
+        <apex:form id="fm" >
+            <apex:pageBlock id="loginFrm" >
+                <div class="loginFrm" >
+                    <apex:outputPanel id="aas"><apex:pageMessages /> <br /></apex:outputPanel>
+                    
+                    <center>
+                     
+                        
+                        <apex:panelGrid columns="1"  styleClass="loginGrid">
+                            
+                            
+                                <apex:commandButton action="{!sendEmail}" value="Send" id="Login" styleClass="LoginBtn" />
+                               
+                        </apex:panelGrid>
+                    </center>
+                    
+                </div>
+            </apex:pageBlock>
+        </apex:form>
+    </body>
+    
+</apex:page>

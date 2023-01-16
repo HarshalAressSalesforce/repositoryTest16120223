@@ -1,0 +1,25 @@
+.THIS.pagainiation {
+    margin:2% 0;
+    
+}
+
+.THIS.pagainiation .left , .THIS.pagainiation .right , .THIS.pagainiation .right ul li {
+    display:inline-block;
+}
+
+.THIS.pagainiation .left  {
+    float:left;
+}
+
+.THIS.pagainiation .right  {
+    float:right;
+}
+
+.THIS.pagainiation .right ul li  {
+    float:left;
+    margin:0 0.2em;
+}
+
+.THIS.pagainiation .right ul li:last-child {
+    margin:0;
+}

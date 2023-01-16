@@ -1,0 +1,23 @@
+<apex:page >
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+ 
+dfgdsfs
+    <i class="fas fa-share-square"></i>
+    sdfsdf
+<h1>fa fa-share-square-o</h1>
+
+<i class="fa fa-share-square-o"></i>
+<i class="fa fa-share-square-o" style="font-size:24px"></i>
+<i class="fa fa-share-square-o" style="font-size:36px"></i>
+<i class="fa fa-share-square-o" style="font-size:48px;color:red"></i>
+    <br />
+
+<p>Used on a button:</p>
+<button style="font-size:24px">Button <i class="fa fa-share-square-o"></i></button>
+
+<p>Unicode:</p>
+<i style="font-size:24px" class="fa">&#xf045;</i>
+
+</apex:page>

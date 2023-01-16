@@ -1,0 +1,91 @@
+<!-- Label: surveyTabs
+Name : surveyTabs
+Description :  
+
+
+Code: -->
+
+<apex:component controller="surveyTabs">
+    <apex:stylesheet value="{!$Resource.SurveyTabsCss}"/>
+    <apex:attribute name="surveyId" description="surveyId" type="Id" required="required" assignTo="{!currentSurveyId}"/>
+    {!loadSurveydetails}
+    <!--surveyTabs -->
+    
+    <div class="progress clear">
+        <div class="circle  {! IF(currentSurveyDetails == null || currentSurveyDetails.currentState__c == 1 , 'active', '')} 
+            {! IF(currentSurveyDetails != null && currentSurveyDetails.currentState__c > 1 , 'done', '')} ">
+            <span class="label">1</span>
+            <p class="title">
+                <apex:outputLink rendered="{! IF(currentSurveyDetails != null , true, false)}" value="{!$Page.editSurvey}?id={!currentSurveyDetails.Id}" >
+                    General Information
+                </apex:outputLink>
+                <apex:outputLink rendered="{! IF(currentSurveyDetails == null , true, false)}" value="{!$Page.CreateSurvey}" >General Information</apex:outputLink>               
+            </p>
+        </div> 
+    
+        <span class="bar {! IF(currentSurveyDetails != null && currentSurveyDetails.currentState__c >= 2  , 'done', '')}"></span>
+        <div class="circle  {! IF(currentSurveyDetails != null && currentSurveyDetails.currentState__c == 2 , 'active done', '')} 
+            {! IF(currentSurveyDetails != null &&  currentSurveyDetails.currentState__c > 2 , 'done', '')} ">
+                <span class="label">2</span>
+                <p class="title">
+                    <apex:outputLink styleClass="{! IF(currentSurveyDetails != null &&  currentSurveyDetails.currentState__c == 2 , 'current', '')} " 
+                    rendered ="{! IF(currentSurveyDetails != null && currentSurveyDetails.currentState__c >= 2 , true, false)}" value="{!$Page.createSurveyQuestions}?surveyId={!currentSurveyDetails.Id}" >
+                        Manage Question
+                    </apex:outputLink>
+                    <apex:outputText rendered="{! IF((currentSurveyDetails == null) || (currentSurveyDetails != null && currentSurveyDetails.currentState__c < 2) , true, false )}" value="Send Survey"  />               
+                </p>
+        </div> 
+        <span class="bar {! IF(currentSurveyDetails != null && currentSurveyDetails.currentState__c >= 3 , 'done', '')}"></span>
+        <div class="circle  {! IF(currentSurveyDetails != null && currentSurveyDetails.currentState__c == 3 , 'active done', '')} {! IF(currentSurveyDetails != null && currentSurveyDetails.currentState__c > 3 , 'done', '')} ">
+            <span class="label">3</span>
+                <p class="title">
+                    <apex:outputLink styleClass="{! IF(currentSurveyDetails != null && currentSurveyDetails.currentState__c == 3 , 'current', '')} " 
+                    rendered ="{! IF(currentSurveyDetails != null && currentSurveyDetails.currentState__c >= 3 , true, false)}" value="{!$Page.SBRecipient}?surveyId={!currentSurveyDetails.Id}" >
+                        Manage Recepient
+                   </apex:outputLink>
+                    <apex:outputText rendered="{! IF((currentSurveyDetails == null) || (currentSurveyDetails != null && currentSurveyDetails.currentState__c < 3) , true, false )}" value="Manage Recepient"  />               
+                </p>
+         </div> 
+         <span class="bar {! IF(currentSurveyDetails != null && currentSurveyDetails.currentState__c == 4 , 'done', '')}"></span>
+         <div class="circle  {! IF(currentSurveyDetails != null && currentSurveyDetails.currentState__c == 4 , 'active done', ' ')}  ">
+            <span class="label">4</span>
+            <p class="title">
+                <apex:outputLink styleClass="{! IF(currentSurveyDetails != null && currentSurveyDetails.currentState__c == 4 , 'current', '')} " 
+                rendered ="{! IF(currentSurveyDetails != null && currentSurveyDetails.currentState__c >= 4 , true, false)}" value="{!$Page.sendSurvey}?surveyId={!currentSurveyDetails.Id}" >
+                    Send Survey
+                </apex:outputLink>
+                <apex:outputText rendered="{! IF((currentSurveyDetails == null) || (currentSurveyDetails != null && currentSurveyDetails.currentState__c < 4) , true, false )}" value="Send Survey"  />               
+            </p>
+        </div> 
+    </div>
+    
+       <!--<ul class="progress" style="display:none;"> 
+           
+           <li>           
+               <apex:outputLink styleClass="{! IF(currentSurveyDetails.currentState__c == 1 , 'current', '')} circle Active" rendered="{! IF(currentSurveyDetails != null , true, false)}" value="{!$Page.editSurvey}?id={!currentSurveyDetails.Id}" >1. General Information</apex:outputLink>
+               <apex:outputLink styleClass="{! IF(currentSurveyDetails.currentState__c == 1 , 'current', '')}" rendered="{! IF(currentSurveyDetails == null , true, false)}" value="{!$Page.CreateSurvey}" >1. Information</apex:outputLink>               
+           </li>
+           <span class="bar"></span>
+           <apex:outputPanel rendered="{!IF( (currentSurveyDetails != null),true,false )}">
+           
+               <li>
+                   <apex:outputLink styleClass="{! IF(currentSurveyDetails.currentState__c == 2 , 'current', '')} circle Active" rendered ="{! IF(currentSurveyDetails.currentState__c >= 2 , true, false)}" value="{!$Page.createSurveyQuestions}?surveyId={!currentSurveyDetails.Id}" >2. Manage Questions</apex:outputLink>
+                   <apex:outputText rendered="{! IF(currentSurveyDetails.currentState__c < 2 , true, false )}" value="2.Manage Questions"  />
+               </li>
+               <span class="bar"></span>
+               <li>
+                   <apex:outputLink styleClass="{! IF(currentSurveyDetails.currentState__c == 3 , 'current', '')} circle Active" rendered ="{! IF(currentSurveyDetails.currentState__c >= 3 , true, false)}" value="{!$Page.SBRecipient}?id={!currentSurveyDetails.Id}" >3. Manage Recipients</apex:outputLink>
+                   <apex:outputText rendered="{! IF(currentSurveyDetails.currentState__c < 3 , true, false )}" value="3.Manage Recipients"  />
+               </li>
+               <span class="bar"></span>
+               <li>
+                   <apex:outputLink styleClass="{! IF(currentSurveyDetails.currentState__c == 4 , 'current', '')} circle Active" rendered ="{! IF(currentSurveyDetails.currentState__c >= 4 , true, false)}" value="{!$Page.sendSurvey}?surveyId={!currentSurveyDetails.Id}" >4. Send survey</apex:outputLink>
+                   <apex:outputText rendered="{! IF(currentSurveyDetails.currentState__c < 4 , true, false )}" value="4.Send survey"  />
+               </li>
+           </apex:outputPanel>
+      
+      
+   </ul>-->
+   
+   
+</apex:component>

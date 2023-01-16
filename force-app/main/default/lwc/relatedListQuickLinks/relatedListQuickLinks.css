@@ -1,0 +1,28 @@
+.showMore{
+    background-color: #e61818 !important;
+    
+};
+.liclass{
+    width:175px; 
+    padding-bottom: var(--lwc-varSpacingVerticalSmall);
+    margin-right: var(--lwc-spacingSmall);
+    border-bottom: var(--lwc-borderWidthThin, 1px);
+}
+.pointer{
+    z-index: 9001; 
+    width: calc(1.25rem + .0625rem);
+     height: calc(1.25rem + .0625rem); 
+     transform: rotate(45deg); 
+     border-top: 1px solid #d8dde6;
+      border-left: 1px solid #d8dde6;
+       background: #fff;
+        position: absolute;
+         top: 0; 
+         left: 0;
+}
+/*.tooltipOver {
+    
+}
+.tooltipClass {
+    display: none;
+}*/

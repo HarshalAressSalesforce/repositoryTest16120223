@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <isExposed>true</isExposed>
+ <targets>
+    <target>lightning__RecordPage</target>
+    <target>lightning__AppPage</target>
+    <target>lightning__HomePage</target>
+    <target>lightningCommunity__Page</target>
+    <target>lightningCommunity__Default</target>
+ </targets>
+ <targetConfigs>
+    <targetConfig targets="lightning__RecordPage,lightningCommunity__Default">
+      <property label="Hide Header" name="HideHeader" type="Boolean"   description="Select to hide the component header (title)"/>
+      <property label="Header" name="Header" type="String" description="Enter the header value (title) users will see." default="Related list Quick Links"/>
+      <property label="Objects" name="obj" type="String" description="Enter the API names of the related list objects that shoud be included in the diaplay. For example: Account,Contact,Custom__c."/>
+      <property label="Alphabetical Order" name="alpha" type="String" 
+      description=" Horizontal will list objects from left to right. Vertical will list objects from top to bottom." default ="Horizontal"/>      
+      <property name="recordId" type="String"  label="Record ID" 
+      description="Used only when component is placed on Community. Always use this value {!recordId} as a input for this field."/>
+   </targetConfig>  
+ </targetConfigs> 
+</LightningComponentBundle>

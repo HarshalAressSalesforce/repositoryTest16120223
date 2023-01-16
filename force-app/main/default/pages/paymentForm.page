@@ -1,0 +1,41 @@
+<apex:page showHeader="false" sidebar="false" controller="paymentController" standardStylesheets="true" docType="html-5.0"  >
+   <apex:form >
+     
+      <apex:input value="{!mer_txn_ref_no}" id="mer_txn_ref_no" label="Merchant Txn. Ref. No" />
+      <apex:input value="{!amount}" id="amount" label="Amount" />      
+      <apex:input value="{!OrderInfo}" id="OrderInfo" label="Order Id" />
+      <apex:input value="{!cardholder_email}" id="cardholder_email" label="CardHolder Email" />
+      <apex:input value="{!cardholder_phone}" id="cardholder_phone" label="CardHolder Phone" />
+     
+      <apex:commandButton action="{!paynow}" value="Pay now" id="Login" styleClass="LoginBtn" />
+      
+       {!encDataString }
+   </apex:form>
+   
+   <form  action="https://sandbox.isgpay.com:8443/ISGPay/request.action" method="post" name="server_request"  >
+            <table width="80%" align="center" border="0" cellpadding='0' cellspacing='0'>
+<tr>
+                    <td><input type="hidden" name="EncData" id="EncData" value="{!encDataString}" /></td>
+                </tr>
+     <tr>
+                    <td><input type="hidden" name="MerchantId" id="MerchantId" value="101000000000781" /></td>
+                </tr>
+                <tr>
+                    <td><input type="hidden" name="BankId" id="BankId" value="000004" /></td>
+                </tr>
+                <tr>
+                    <td><input type="hidden" name="TerminalId" id="TerminalId" value="10100781" /></td>
+                </tr>
+                <tr>
+                    <td><input type="hidden" name="Version" id="Version" value="1" /></td>
+                </tr>
+                
+                
+            </table>
+        </form>
+        <apex:outputPanel rendered="{! if(encDataString != null,true,false)}">
+        <script type="text/javascript">
+document.server_request.submit();
+</script>
+</apex:outputPanel>
+</apex:page>

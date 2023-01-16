@@ -1,0 +1,50 @@
+<apex:page docType="html-5.0"  showHeader="true" sidebar="true" standardStylesheets="false">
+    <style>
+       .surveySection {
+           padding:10px;
+        }
+        
+        .questions {
+           margin-top:20px;
+           
+        }
+    
+    </style>
+    
+    <apex:stylesheet value="{! URLFOR($Resource.IronRageSlider, 'ionRangeSliderDemo/css/normalize.css') }"/>
+    <apex:stylesheet value="{! URLFOR($Resource.IronRageSlider, 'ionRangeSliderDemo/css/ion.rangeSlider.css') }"/>
+    <apex:stylesheet value="{! URLFOR($Resource.IronRageSlider, 'ionRangeSliderDemo/css/ion.rangeSlider.skinFlat.css') }"/>
+  
+    <apex:pageBlock title="Feedback">
+         <apex:form styleClass="surveySection">    
+            <strong>We value your feedback, your feedback is important to us!</strong>
+            <div class="questions"  >
+                <apex:input styleClass="range" />
+            </div> 
+         </apex:form>
+    </apex:pageBlock>     
+         
+    
+       
+    <apex:includeScript value="{!URLFOR($Resource.IronRageSlider, 'ionRangeSliderDemo/js/jquery-1.12.3.min.js') }"/>
+    <apex:includeScript value="{!URLFOR($Resource.IronRageSlider, 'ionRangeSliderDemo/js/ion.rangeSlider.js') }"/>
+    
+    <script type="text/javascript">
+         $(function () {
+            $(".range").ionRangeSlider({
+                hide_min_max: true,
+                keyboard: true,
+               
+                type: 'single',
+                 
+                
+                grid: true,
+                values:[
+                     "one", "two", "three",
+                     "four", "five", "six",
+                     "seven", "eight", "nine", "ten"]
+            });
+    
+        });
+    </script> 
+</apex:page>

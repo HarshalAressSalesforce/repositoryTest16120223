@@ -1,0 +1,83 @@
+<apex:page sidebar="false" showHeader="false" controller="allocationsController" 
+           action="{! deleteAllocatedSurvey }" standardStylesheets="false" 
+           applyHtmlTag="false" applyBodyTag="false" docType="HTML-5.0">
+    <html>
+        <head>
+            <title>Survey List</title>
+            <apex:include pageName="surveyHeaderTags" />
+            <!-- for jquery alert box -->
+            <apex:stylesheet value="{!URLFOR($Resource.jqueryConfirmstyles, 'jqueryConfirmstyles/jqueryConfirmstyles.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.jQueryConfirmCss, 'jquery.confirm/jquery.confirm.css')}"/>
+            <!-- for jquery alert box -->
+        </head>
+        <body>
+            <apex:include pageName="surveyHeader" />
+            <c:topPageNavigation myPageTitle="List of Related Surveys" />
+            <section class="bodyContainer">
+                <div class="container clear"> 
+                    <apex:form styleClass="searchForm">
+                        <div class="white-box">
+                            <div class="clear">
+                                <apex:outputLink value="{!$Page.manageQuestions}" styleClass="green-btn floatRight">Back To Questions</apex:outputLink>
+                            </div>
+                            <p class="spnQuestionMessage">
+                                <apex:outputText rendered="{!(AllocatedSurveys.size != 0)}">
+                                The Question you are trying to delete is allocated to following surveys. Please delete survey or
+                                deallocate the question from the following surveys in-order to delete the question
+                                </apex:outputText>
+                            </p>
+                            <apex:outputPanel id="opPnlRerender" layout="block" >
+                                <apex:pageMessages />
+                                <apex:dataTable rendered="{!(AllocatedSurveys.size != 0)}" value="{!AllocatedSurveys}" var="s"  styleClass="defaultTable">
+                                    <apex:column headerValue="Name" styleClass="Outputter3" >
+                                        <apex:outputField value="{!s.Name}" />
+                                        <apex:variable var="vara" value="{!s.Name}" />
+                                    </apex:column>
+                                    
+                                    <apex:column headerValue="Description" styleClass="Outputter3" >
+                                        <apex:outputField value="{!s.Description__c}" />
+                                        <apex:variable var="des" value="{!s.Description__c}" />
+                                    </apex:column>
+                                    
+                                    <apex:column colspan="1" styleClass="action-links"> 
+                                        <!--<div class="tooltip">-->
+                                            <!-- reRender="opPnlRerender" -->
+                                        <!--    <apex:outputLink value="/apex/questionAllocations?id={!s.Id}&qId={!qId}"  
+                                                             onClick="return returnConfirm(this,'Are you sure to delete the survey?');">
+                                                <apex:image url="{!$Resource.DeleteIcon}" />
+                                            </apex:outputLink>
+                                            <span class="tooltiptext">Delete Survey</span>
+                                        -->
+                                        <!--</div>-->
+                                        
+                                        &nbsp;&nbsp;
+                                        <div class="tooltip">
+                                            <apex:outputLink value="/apex/createSurveyQuestions?surveyId={!s.Id}" >
+                                                <!--<apex:param name="surveyId" value="{! s.Id }"  />-->
+                                                <apex:image url="{!$Resource.viewReport}" />
+                                            </apex:outputLink>
+                                            <span class="tooltiptext">View Survey Questions</span>
+                                        </div>
+                                    </apex:column>
+                                    
+                                </apex:dataTable>
+                                <c:globalPageIniation rendered="{!(AllocatedSurveys.size != 0)}" pagingObject="{!allocatedCon}" />
+                                <apex:outputText rendered="{!(AllocatedSurveys.size == 0)}">
+                                    <div class="clear noRecords">
+                                        There are no surveys to display.
+                                    </div>
+                                </apex:outputText>
+                            </apex:outputPanel>
+                        </div>
+                    </apex:form>
+                </div>
+            </section>
+            <apex:include pageName="surveyFooter" />
+            
+            <!-- for jquery alert box -->
+            <apex:includeScript value="{!$Resource.jQueryConfirmJs}"/>
+            <apex:includeScript value="{!$Resource.jQueryConfirmscript}"/> 
+            <!-- for jquery alert box -->
+        </body>
+    </html>
+</apex:page>

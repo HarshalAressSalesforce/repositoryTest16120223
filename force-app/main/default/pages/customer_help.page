@@ -1,0 +1,6 @@
+<apex:page >
+   
+  <h1>Help for the Customer Object</h1>
+  This is the help page for customer
+  
+</apex:page>

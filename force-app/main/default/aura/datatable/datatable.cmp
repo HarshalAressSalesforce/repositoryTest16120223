@@ -1,0 +1,87 @@
+<aura:component controller="DataTableApexClass" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	<aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="filters" type="Object"/>
+    <aura:attribute name="errors" type="Object" default="[]"/>
+    <aura:attribute name="draftValues" type="Object" default="[]"/>    
+    <aura:attribute name="objectName" type="String" default=""/>
+    <aura:attribute name="fields" type="String" default=""/>
+ 
+    <aura:attribute name="currentPage" type="Integer" default="1"/>
+    
+    <aura:if isTrue="{!v.filters.length>0}">
+        <table>
+        	<aura:iteration items="{!v.filters}" var="filter">
+                <tr>
+                	<td>{!filter.label}</td>
+                    <td><lightning:select name="Operator" label="Operator" value="{!filter.value}" >
+                            <aura:iteration items="{!filter.operators}" var="operator">
+                                <option value="{!operator}" >{!operator}</option>
+                            </aura:iteration>
+                        </lightning:select> </td>
+                    <td>
+                    	<aura:if isTrue="{!filter.type == 'text' || filter.type == 'email'|| filter.type == 'id' || filter.type == 'phone'|| filter.type == 'string'|| filter.type == 'url'}">
+                            <lightning:input name="val" value="{!filter.value}" />
+                        </aura:if>
+                        <aura:if isTrue="{!filter.type == 'picklist'}">
+                            <lightning:select name="val"  value="{!filter.value}"  >
+                                <aura:iteration items="{!filter.options}" var="opt">
+                                    <option value="{!opt.value}" >{!opt.label}</option>
+                                </aura:iteration>
+                        	</lightning:select>
+                        </aura:if>
+                        
+                        <aura:if isTrue="{!filter.type == 'percent' || filter.type == 'integer' || filter.type == 'long'|| filter.type == 'double'}">
+                            <lightning:input type="number" name="input1"   value="{!v.filter.value}"/>
+                        </aura:if>
+                        
+                        <aura:if isTrue="{!filter.type == 'currency'}">
+                           <lightning:input type="number"  value="{!v.filter.value}"  formatter="currency" />
+                        </aura:if>
+                        
+                        <aura:if isTrue="{!filter.type == 'Date'}">
+                            <lightning:input type="date" name="input1"  value="{!v.filter.value}"  />
+                        </aura:if>
+                        
+                        <aura:if isTrue="{!filter.type == 'DateTime'}">
+                            <lightning:input type="datetime" name="input1" value="{!v.filter.value}"  />
+                        </aura:if>
+                    </td>
+                </tr>
+            </aura:iteration>
+        </table>
+        <lightning:button variant="brand" label="Search" title="Search" onclick="{! c.init }"/>
+    </aura:if>
+    
+    
+    <lightning:datatable aura:id="dtTable"
+                             columns="{!v.columns}"
+                             data="{!v.data.records}"
+                             keyField="Id"
+                             errors="{! v.errors }"
+                             draftValues="{!v.draftValues }"
+                             onsave="{!c.handleSaveEdition }"
+                             />
+    
+     
+    <aura:if isTrue="{!v.data.totalPages > 1}">
+        <div class="pagainiation">
+            <div class="left">Page {!v.currentPage} of {!v.data.totalPages}</div> 
+            <div class="right">
+                <ul>
+                    <li><lightning:button variant="brand" label="First" title="First" onclick="{! c.first }"/></li>
+                	<li><lightning:button variant="brand" label="Prev" title="Prev" onclick="{! c.prev }"/></li>
+                    <li><lightning:select name="select" value="{!v.currentPage}"  onchange="{!c.gotoPage}">
+                            <aura:iteration items="{!v.data.pages}" var="item">
+                                <option value="{!item}" >{!item}</option>
+                            </aura:iteration>
+                        </lightning:select> 
+                    </li>   
+                    <li><lightning:button variant="brand" label="Next" title="Next" onclick="{! c.next }"/></li>
+                    <li><lightning:button variant="brand" label="Last" title="Last" onclick="{! c.Last }"/></li>
+                </ul>    
+            </div>  
+        </div>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,39 @@
+<template>
+    <lightning-card  title="Select Field" >
+        <lightning-combobox
+                name="Object"
+                label="Select Object"
+                value={value}
+                placeholder="Select Object"
+                options={objects}
+                onchange={showData} >
+        </lightning-combobox>
+
+        <div if:false={isLoaded} class="slds-is-relative">
+            <lightning-spinner
+                alternative-text="Loading..." variant="brand">
+            </lightning-spinner>
+        </div>
+
+        <br />
+        <div class="calendarTable" if:true={isLoaded}>
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered "> <!-- class="slds-table slds-table_cell-buffer slds-table_bordered "  -->
+                <thead>
+                    <tr>  
+                        <th  style="text-align:center">Field Label</th>
+                        <th  style="text-align:center">Field Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={analysis} for:item="an" for:index="index">
+                        <tr key={an.apiName}>
+                            <td>{an.label}</td>
+                            <td>{an.percentValue}</td>
+                            
+                        </tr>
+                    </template> 
+                </tbody>
+            </table>
+        </div>
+    </lightning-card>
+</template>
